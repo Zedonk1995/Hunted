@@ -36,6 +36,7 @@ public class MovementScript : MonoBehaviour
     private void PlayerMove()
     {
         playerMoveInputDirection = new Vector3(moveInput.x, moveInput.y, moveInput.z).normalized;
+        Debug.Log(playerMoveInputDirection);
 
         moveInput = dragCoefficient * ( maxSpeed * maxSpeed * playerMoveInputDirection - Vector3.SqrMagnitude( currentVelocity ) * currentVelocity.normalized );
     }
@@ -53,8 +54,6 @@ public class MovementScript : MonoBehaviour
         
         if ( speedSquared < 25.0f )
         {
-            Debug.Log(currentVelocity);
-
             Vector3 currentVelocityDirection = currentVelocity.normalized;
 
             // force to make players come to a halt when moving at low speeds
