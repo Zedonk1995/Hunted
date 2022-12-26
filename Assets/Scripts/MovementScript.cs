@@ -10,7 +10,7 @@ public class MovementScript : MonoBehaviour
     Vector3 moveInput = Vector3.zero;
 
     private Vector3 playerMoveInputDirection = Vector3.zero;
-    private Vector3 currentVelocity = Vector3.zero;
+    private Vector3 localCurrentVelocity = Vector3.zero;
 
     public float maxSpeed { get; set; } = 10.0f;
     public float dragCoefficient { get; set; } = 100.0f;
@@ -36,28 +36,31 @@ public class MovementScript : MonoBehaviour
     private void PlayerMove()
     {
         playerMoveInputDirection = new Vector3(moveInput.x, moveInput.y, moveInput.z).normalized;
-        Debug.Log(playerMoveInputDirection);
 
-        moveInput = dragCoefficient * ( maxSpeed * maxSpeed * playerMoveInputDirection - Vector3.SqrMagnitude( currentVelocity ) * currentVelocity.normalized );
+        Vector3 propulsion = dragCoefficient * maxSpeed * maxSpeed * playerMoveInputDirection;
+        Vector3 drag = dragCoefficient * Vector3.SqrMagnitude(localCurrentVelocity) * localCurrentVelocity.normalized;
+
+        moveInput = propulsion - drag;
     }
 
     private void FixedUpdate()
     {
-        currentVelocity = myRigidbody.velocity;
-        float speedSquared = Vector3.SqrMagnitude(currentVelocity);
-        //Debug.Log(speedSquared);
+        Vector3 currentVelocity = myRigidbody.velocity;
+        localCurrentVelocity = transform.InverseTransformDirection(currentVelocity);
+        float speedSquared = Vector3.SqrMagnitude(localCurrentVelocity);
+        Debug.Log(currentVelocity);
 
         moveInput = GetMoveInput();
         PlayerMove();
 
         myRigidbody.AddRelativeForce(moveInput, ForceMode.Force); // ForceMode.Force is the default value but I put here in there for clarity
-        
-        if ( speedSquared < 25.0f )
+
+        if (speedSquared < 25.0f)
         {
-            Vector3 currentVelocityDirection = currentVelocity.normalized;
+            Vector3 localCurrentVelocityDirection = localCurrentVelocity.normalized;
 
             // force to make players come to a halt when moving at low speeds
-            Vector3 stoppingForce = -100.0f * currentVelocityDirection;
+            Vector3 stoppingForce = -100.0f * localCurrentVelocityDirection;
             myRigidbody.AddRelativeForce(stoppingForce, ForceMode.Force);
         }
 

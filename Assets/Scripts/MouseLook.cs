@@ -1,4 +1,4 @@
-using System.Collections;
+   using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,7 +9,7 @@ public class MouseLook : MonoBehaviour
     float mouseX;
     float mouseY;
 
-    private float mouseSensitivity = 10.0f;
+    private float mouseSensitivity = 20.0f;
 
     Vector2 LookInput = Vector2.zero;
 
@@ -38,11 +38,6 @@ public class MouseLook : MonoBehaviour
         LookInput = input.LookInput;
         mouseX = LookInput.x * mouseSensitivity;
         mouseY = -LookInput.y * mouseSensitivity;
-
-
-        //Debug.Log(mouseX);
-        //Debug.Log(mouseY);
-        //Debug.Log(this.transform.position);
 
         myRigidbody.transform.Rotate(Vector3.up * mouseX, Space.World);
         myRigidbody.transform.Rotate(Vector3.right * mouseY);
