@@ -9,7 +9,7 @@ public class MouseLook : MonoBehaviour
     float mouseX;
     float mouseY;
 
-    private float mouseSensitivity = 20.0f;
+    private float mouseSensitivity = 50.0f;
 
     Vector2 LookInput = Vector2.zero;
 
@@ -29,17 +29,16 @@ public class MouseLook : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        LookInput = input.LookInput;
+        mouseX = LookInput.x * mouseSensitivity * Time.deltaTime;
+        mouseY = -LookInput.y * mouseSensitivity * Time.deltaTime;
 
+        myRigidbody.transform.Rotate(Vector3.up * mouseX, Space.World);
+        myRigidbody.transform.Rotate(Vector3.right * mouseY);
     }
 
     private void FixedUpdate()
     {
 
-        LookInput = input.LookInput;
-        mouseX = LookInput.x * mouseSensitivity;
-        mouseY = -LookInput.y * mouseSensitivity;
-
-        myRigidbody.transform.Rotate(Vector3.up * mouseX, Space.World);
-        myRigidbody.transform.Rotate(Vector3.right * mouseY);
     }
 }
