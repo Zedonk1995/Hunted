@@ -33,14 +33,14 @@ public class MovementScript : MonoBehaviour
         return new Vector3(input.MoveInput.x, 0.0f, input.MoveInput.y);
     }
 
-    private void PlayerMove()
+    private Vector3 getPlayerMove(Vector3 moveInput)
     {
         playerMoveInputDirection = new Vector3(moveInput.x, moveInput.y, moveInput.z).normalized;
 
         Vector3 propulsion = dragCoefficient * maxSpeed * maxSpeed * playerMoveInputDirection;
         Vector3 drag = dragCoefficient * Vector3.SqrMagnitude(localCurrentVelocity) * localCurrentVelocity.normalized;
 
-        moveInput = propulsion - drag;
+        return propulsion - drag;
     }
 
     private void FixedUpdate()
@@ -48,12 +48,11 @@ public class MovementScript : MonoBehaviour
         Vector3 currentVelocity = myRigidbody.velocity;
         localCurrentVelocity = transform.InverseTransformDirection(currentVelocity);
         float speedSquared = Vector3.SqrMagnitude(localCurrentVelocity);
-        Debug.Log(currentVelocity);
 
         moveInput = GetMoveInput();
-        PlayerMove();
+        moveInput = getPlayerMove(moveInput);
 
-        myRigidbody.AddRelativeForce(moveInput, ForceMode.Force); // ForceMode.Force is the default value but I put here in there for clarity
+        myRigidbody.AddRelativeForce(moveInput, ForceMode.Force); // ForceMode.Force is the default value but I put in there for clarity
 
         if (speedSquared < 25.0f)
         {
