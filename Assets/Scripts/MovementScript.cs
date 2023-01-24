@@ -58,16 +58,6 @@ public class MovementScript : MonoBehaviour
         Debug.Log(localCurrentVelocity);
 
         myRigidbody.AddRelativeForce(moveInput, ForceMode.Force); // ForceMode.Force is the default value but I put in there for clarity
-
-        if (speedSquared < 25.0f)
-        {
-            Vector3 localCurrentVelocityDirection = localCurrentVelocity.normalized;
-
-            // force to make players come to a halt when moving at low speeds
-            Vector3 stoppingForce = -5.0f * localCurrentVelocityDirection;
-            myRigidbody.AddRelativeForce(stoppingForce * myRigidbody.mass, ForceMode.Force);
-        }
-
     }
 
 
