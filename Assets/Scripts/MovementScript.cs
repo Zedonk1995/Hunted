@@ -21,7 +21,7 @@ public class MovementScript : MonoBehaviour
         myRigidbody = GetComponent<Rigidbody>();
         input = GetComponent<ILandInput>();
 
-        dragCoefficient = 10.0f * myRigidbody.mass;
+        dragCoefficient = 10.0f;
     }
 
     // Update is called once per frame
@@ -55,9 +55,7 @@ public class MovementScript : MonoBehaviour
         moveInput = GetMoveInput();
         moveInput = getPlayerMove(moveInput);
 
-        Debug.Log(localCurrentVelocity);
-
-        myRigidbody.AddRelativeForce(moveInput, ForceMode.Force); // ForceMode.Force is the default value but I put in there for clarity
+        myRigidbody.AddRelativeForce(moveInput * myRigidbody.mass, ForceMode.Force); // ForceMode.Force is the default value but I put in there for clarity
     }
 
 
