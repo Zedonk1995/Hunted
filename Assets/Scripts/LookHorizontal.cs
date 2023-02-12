@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MouseLook : MonoBehaviour
+// --------------------- HORIZONTAL MOUSELOOK -----------------------
+public class LookHorizontal : MonoBehaviour
 {
     Rigidbody myRigidbody = null;
 
     float mouseX;
-    float mouseY;
 
     private float mouseSensitivity = 50.0f;
 
@@ -31,10 +31,8 @@ public class MouseLook : MonoBehaviour
     {
         LookInput = input.LookInput;
         mouseX = LookInput.x * mouseSensitivity * Time.deltaTime;
-        mouseY = -LookInput.y * mouseSensitivity * Time.deltaTime;
 
         myRigidbody.transform.Rotate(Vector3.up * mouseX, Space.World);
-        myRigidbody.transform.Rotate(Vector3.right * mouseY);
     }
 
     private void FixedUpdate()
