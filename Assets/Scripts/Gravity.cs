@@ -15,7 +15,7 @@ public class Gravity : MonoBehaviour
     RaycastHit groundCheckHit;
 
     float gravity = 0f;
-    float gravityIncrement = 20f;
+    float gravityIncrement = 100f;
     float gravityMax = 1000f;
 
     float timeSinceLastGravityIncrease = 0f;

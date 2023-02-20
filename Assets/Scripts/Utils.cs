@@ -11,7 +11,7 @@ public static class Utils
     // key for dictionary would be object identifier/id value would be what frame it is and whether it's grounded
     public static bool IsGrounded(BoxCollider myBoxCollider, Rigidbody myRigidbody, ref RaycastHit groundCheckHit)
     {
-        Vector3 boxCastSize = groundCheckSizeMultiplier * myBoxCollider.size;
+        Vector3 boxCastSize = groundCheckSizeMultiplier * myBoxCollider.size/2;
         float boxCastTravelDistance = myBoxCollider.size.y - boxCastSize.y + groundCheckDistance;
         return Physics.BoxCast(myRigidbody.position, boxCastSize, Vector3.down, out groundCheckHit, Quaternion.identity, boxCastTravelDistance ); 
     }
