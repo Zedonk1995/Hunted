@@ -3,9 +3,10 @@ using UnityEngine.InputSystem;
 
 public class PlayerLandInput : MonoBehaviour, ILandInput
 {
-    public Vector2 MoveInput { get; private set; } = Vector2.zero;
-    public Vector2 LookInput { get; private set; } = Vector2.zero;
+    public Vector2 moveInput { get; private set; } = Vector2.zero;
+    public Vector2 lookInput { get; private set; } = Vector2.zero;
 
+    public bool jumpIsPressed { get; private set; } = false;
 
     InputActions input = null;
 
@@ -22,6 +23,9 @@ public class PlayerLandInput : MonoBehaviour, ILandInput
 
         input.PlayerLand.Look.performed += SetLook;
         input.PlayerLand.Look.canceled += SetLook;
+
+        input.PlayerLand.Jump.started += SetJump;
+        input.PlayerLand.Jump.canceled+= SetJump;
     }
 
     private void OnDisable()
@@ -33,16 +37,24 @@ public class PlayerLandInput : MonoBehaviour, ILandInput
         input.PlayerLand.Look.performed -= SetLook;
         input.PlayerLand.Look.canceled -= SetLook;
 
+        input.PlayerLand.Jump.started -= SetJump;
+        input.PlayerLand.Jump.canceled -= SetJump;
+
         input.PlayerLand.Disable();
     }
 
     private void SetMove(InputAction.CallbackContext ctx)
     {
-        MoveInput = ctx.ReadValue<Vector2>();
+        moveInput = ctx.ReadValue<Vector2>();
     }
 
     private void SetLook(InputAction.CallbackContext ctx)
     {
-        LookInput = ctx.ReadValue<Vector2>();
+        lookInput = ctx.ReadValue<Vector2>();
+    }
+
+    private void SetJump(InputAction.CallbackContext ctx)
+    {
+        jumpIsPressed = ctx.started;
     }
 }

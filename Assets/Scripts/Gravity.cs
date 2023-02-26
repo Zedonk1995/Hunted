@@ -38,10 +38,7 @@ public class Gravity : MonoBehaviour
 
     void FixedUpdate()
     {
-
         isGrounded = Utils.IsGrounded(myBoxCollider, myRigidbody, ref groundCheckHit);
-
-        Debug.Log(isGrounded);
 
         if (isGrounded) {
             gravity = 0;

@@ -13,15 +13,13 @@ public class MovementScript : MonoBehaviour
     private Vector3 localCurrentVelocity = Vector3.zero;
 
     public float maxSpeed { get; set; } = 10.0f;
-    public float dragCoefficient { get; set; }
+    public float dragCoefficient { get; set; } = 10.0f;
 
     // Start is called before the first frame update
     void Start()
     {
         myRigidbody = GetComponent<Rigidbody>();
         input = GetComponent<ILandInput>();
-
-        dragCoefficient = 10.0f;
     }
 
     // Update is called once per frame
@@ -32,7 +30,7 @@ public class MovementScript : MonoBehaviour
 
     private Vector3 GetMoveInput()
     {
-        return new Vector3(input.MoveInput.x, 0.0f, input.MoveInput.y);
+        return new Vector3(input.moveInput.x, 0.0f, input.moveInput.y);
     }
 
     private Vector3 getPlayerMove(Vector3 moveInput)

@@ -29,7 +29,7 @@ public class LookHorizontal : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        LookInput = input.LookInput;
+        LookInput = input.lookInput;
         mouseX = LookInput.x * mouseSensitivity * Time.deltaTime;
 
         myRigidbody.transform.Rotate(Vector3.up * mouseX, Space.World);

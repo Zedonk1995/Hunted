@@ -44,6 +44,15 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Jump"",
+                    ""type"": ""Value"",
+                    ""id"": ""ceb09766-4c17-4ff0-b827-e8058d662046"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -112,6 +121,17 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
                     ""action"": ""Look"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""63aa7604-86eb-4e95-844d-78c970e29619"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -122,6 +142,7 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
         m_PlayerLand = asset.FindActionMap("PlayerLand", throwIfNotFound: true);
         m_PlayerLand_Move = m_PlayerLand.FindAction("Move", throwIfNotFound: true);
         m_PlayerLand_Look = m_PlayerLand.FindAction("Look", throwIfNotFound: true);
+        m_PlayerLand_Jump = m_PlayerLand.FindAction("Jump", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -183,12 +204,14 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
     private IPlayerLandActions m_PlayerLandActionsCallbackInterface;
     private readonly InputAction m_PlayerLand_Move;
     private readonly InputAction m_PlayerLand_Look;
+    private readonly InputAction m_PlayerLand_Jump;
     public struct PlayerLandActions
     {
         private @InputActions m_Wrapper;
         public PlayerLandActions(@InputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_PlayerLand_Move;
         public InputAction @Look => m_Wrapper.m_PlayerLand_Look;
+        public InputAction @Jump => m_Wrapper.m_PlayerLand_Jump;
         public InputActionMap Get() { return m_Wrapper.m_PlayerLand; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -204,6 +227,9 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
                 @Look.started -= m_Wrapper.m_PlayerLandActionsCallbackInterface.OnLook;
                 @Look.performed -= m_Wrapper.m_PlayerLandActionsCallbackInterface.OnLook;
                 @Look.canceled -= m_Wrapper.m_PlayerLandActionsCallbackInterface.OnLook;
+                @Jump.started -= m_Wrapper.m_PlayerLandActionsCallbackInterface.OnJump;
+                @Jump.performed -= m_Wrapper.m_PlayerLandActionsCallbackInterface.OnJump;
+                @Jump.canceled -= m_Wrapper.m_PlayerLandActionsCallbackInterface.OnJump;
             }
             m_Wrapper.m_PlayerLandActionsCallbackInterface = instance;
             if (instance != null)
@@ -214,6 +240,9 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
                 @Look.started += instance.OnLook;
                 @Look.performed += instance.OnLook;
                 @Look.canceled += instance.OnLook;
+                @Jump.started += instance.OnJump;
+                @Jump.performed += instance.OnJump;
+                @Jump.canceled += instance.OnJump;
             }
         }
     }
@@ -222,5 +251,6 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
     {
         void OnMove(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
+        void OnJump(InputAction.CallbackContext context);
     }
 }

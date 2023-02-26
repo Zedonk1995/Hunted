@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MechScript : MonoBehaviour, ILandInput
+public class MechScript : MonoBehaviour
 {
 
 
