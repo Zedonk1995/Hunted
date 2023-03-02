@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MechScript : MonoBehaviour
+public class MechScript : MonoBehaviour, ILandInput
 {
 
 
@@ -11,7 +11,9 @@ public class MechScript : MonoBehaviour
     private Vector3 PlayerAiVector => player.transform.position - transform.position;
     private Vector3 PlayerHorizontalAiVector => Vector3.ProjectOnPlane(PlayerAiVector, Vector3.up);
 
-    public Vector2 MoveInput { get; private set; }
+    public Vector2 moveInput { get; private set; }
+
+    public bool jumpIsPressed => false;
 
     //public Transform BulletOrigin;
     //public GameObject bulletPrefab;
@@ -34,7 +36,7 @@ public class MechScript : MonoBehaviour
     private void FixedUpdate()
     {
         //transform.rotation = Quaternion.LookRotation(PlayerHorizontalAiVector);
-        MoveInput = Vector2.up;
+        moveInput = Vector2.up;
 
 
         //if (Time.time >= timeLastFired + timeFiredInterval)
