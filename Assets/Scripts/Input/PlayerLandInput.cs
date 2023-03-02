@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 public class PlayerLandInput : MonoBehaviour, ILandInput
 {
     public Vector2 moveInput { get; private set; } = Vector2.zero;
-    public Vector2 lookInput { get; private set; } = Vector2.zero;
+    public Vector2 LookInput { get; private set; } = Vector2.zero;
 
     public bool jumpIsPressed { get; private set; } = false;
 
@@ -50,7 +50,7 @@ public class PlayerLandInput : MonoBehaviour, ILandInput
 
     private void SetLook(InputAction.CallbackContext ctx)
     {
-        lookInput = ctx.ReadValue<Vector2>();
+        LookInput = ctx.ReadValue<Vector2>();
     }
 
     private void SetJump(InputAction.CallbackContext ctx)

@@ -22,7 +22,7 @@ public class LookVertical : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        LookInput = input.lookInput;
+        LookInput = input.LookInput;
         mouseY = -LookInput.y * mouseSensitivity * Time.deltaTime;
 
         this.transform.Rotate(Vector3.right * mouseY);
