@@ -9,7 +9,7 @@ public class LookHorizontal : MonoBehaviour
 
     float mouseX;
 
-    private float mouseSensitivity = 50.0f;
+    private readonly float mouseSensitivity = 50.0f;
 
     Vector2 LookInput = Vector2.zero;
 
@@ -33,10 +33,5 @@ public class LookHorizontal : MonoBehaviour
         mouseX = LookInput.x * mouseSensitivity * Time.deltaTime;
 
         myRigidbody.transform.Rotate(Vector3.up * mouseX, Space.World);
-    }
-
-    private void FixedUpdate()
-    {
-
     }
 }

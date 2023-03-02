@@ -1,12 +1,12 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerLandInput : MonoBehaviour, ILandInput
+public class PlayerLandInput : MonoBehaviour
 {
-    public Vector2 moveInput { get; private set; } = Vector2.zero;
+    public Vector2 MoveInput { get; private set; } = Vector2.zero;
     public Vector2 LookInput { get; private set; } = Vector2.zero;
 
-    public bool jumpIsPressed { get; private set; } = false;
+    public bool JumpIsPressed { get; private set; } = false;
 
     InputActions input = null;
 
@@ -45,7 +45,7 @@ public class PlayerLandInput : MonoBehaviour, ILandInput
 
     private void SetMove(InputAction.CallbackContext ctx)
     {
-        moveInput = ctx.ReadValue<Vector2>();
+        MoveInput = ctx.ReadValue<Vector2>();
     }
 
     private void SetLook(InputAction.CallbackContext ctx)
@@ -55,6 +55,6 @@ public class PlayerLandInput : MonoBehaviour, ILandInput
 
     private void SetJump(InputAction.CallbackContext ctx)
     {
-        jumpIsPressed = ctx.started;
+        JumpIsPressed = ctx.started;
     }
 }
