@@ -5,13 +5,12 @@ using UnityEngine;
 
 public class Gravity : MonoBehaviour
 {
-    bool isGrounded = true;
-
     BoxCollider myBoxCollider = null;
     Rigidbody myRigidbody = null;
 
     float mass;
 
+    bool isGrounded = true;
     RaycastHit groundCheckHit;
 
     float gravity = 0f;
