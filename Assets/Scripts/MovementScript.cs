@@ -30,7 +30,7 @@ public class MovementScript : MonoBehaviour
 
     private Vector3 GetMoveInput()
     {
-        return new Vector3(input.moveInput.x, 0.0f, input.moveInput.y);
+        return new Vector3(input.MoveInput.x, 0.0f, input.MoveInput.y);
     }
 
     private Vector3 getPlayerMove(Vector3 moveInput)
