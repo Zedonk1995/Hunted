@@ -10,15 +10,8 @@ public class Gravity : MonoBehaviour
 
     float mass;
 
-    bool isGrounded = true;
-    RaycastHit groundCheckHit;
+    public float GravityStrength { get; private set; } = 20f;
 
-    float gravity = 0f;
-    float gravityIncrement = 100f;
-    float gravityMax = 1000f;
-
-    float timeSinceLastGravityIncrease = 0f;
-    float gravityIncreaseInteveral = 0.1f; // time in seconds between increasing the gravity
 
     // Start is called before the first frame update
     void Start()
@@ -37,26 +30,6 @@ public class Gravity : MonoBehaviour
 
     void FixedUpdate()
     {
-        isGrounded = Utils.IsGrounded(myBoxCollider, myRigidbody, ref groundCheckHit);
-
-        if (isGrounded) {
-            gravity = 0;
-            timeSinceLastGravityIncrease = 0;
-        } else {
-            timeSinceLastGravityIncrease += Time.fixedDeltaTime;
-
-            while(timeSinceLastGravityIncrease > gravityIncreaseInteveral) {
-                gravity += gravityIncrement;
-                timeSinceLastGravityIncrease -= gravityIncreaseInteveral;
-            }
-
-
-            if (gravity > gravityMax )
-            {
-                gravity = gravityMax;
-            }
-        }
-
-        myRigidbody.AddForce(mass * gravity * Vector3.down, ForceMode.Force);
+        myRigidbody.AddForce(mass * GravityStrength * Vector3.down, ForceMode.Force);
     }
 }

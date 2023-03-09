@@ -190,7 +190,7 @@ PrefabInstance:
     - target: {fileID: 934018719651323001, guid: 4cda83b611d9c224a974397747ccad47,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 13.01
+      value: 42.336
       objectReference: {fileID: 0}
     - target: {fileID: 934018719651323001, guid: 4cda83b611d9c224a974397747ccad47,
         type: 3}
@@ -905,10 +905,8 @@ MonoBehaviour:
   m_VersionIndex: 4987
   m_IsSelectable: 1
   m_SelectedFaces: 
-  m_SelectedEdges:
-  - a: 13
-    b: 12
-  m_SelectedVertices: 0d0000000c000000
+  m_SelectedEdges: []
+  m_SelectedVertices: 
 --- !u!4 &148763794
 Transform:
   m_ObjectHideFlags: 0

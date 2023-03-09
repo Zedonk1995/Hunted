@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class MovementScript : MonoBehaviour
 {
+    BoxCollider myBoxCollider = null;
     Rigidbody myRigidbody = null;
     ILandInput input = null;
+
+    bool isGrounded = true;
+    RaycastHit groundCheckHit;
 
     Vector3 moveInput = Vector3.zero;
 
@@ -15,9 +19,13 @@ public class MovementScript : MonoBehaviour
     public float maxSpeed { get; set; } = 10.0f;
     public float dragCoefficient { get; set; } = 10.0f;
 
+    Jump jumpScript = null;
+    bool jumpRecentlyPressed = false;
+
     // Start is called before the first frame update
     void Start()
     {
+        myBoxCollider = GetComponent<BoxCollider>();
         myRigidbody = GetComponent<Rigidbody>();
         input = GetComponent<ILandInput>();
     }
@@ -37,15 +45,27 @@ public class MovementScript : MonoBehaviour
     {
         playerMoveInputDirection = new Vector3(moveInput.x, moveInput.y, moveInput.z).normalized;
 
-        // Unity cannot handle large numbers so drag is set to be proportional to velocity even though that's not actually how drag works
-        Vector3 propulsion = dragCoefficient * maxSpeed * playerMoveInputDirection;
-        Vector3 drag = dragCoefficient * localCurrentVelocity;
+        if (TryGetComponent(out Jump jumpScript))
+        {
+            jumpRecentlyPressed = jumpScript.JumpRecentlyPressed;
+        }
 
-        return propulsion - drag;
+        if (isGrounded && !jumpRecentlyPressed)
+        {
+            // Unity cannot handle large numbers so drag is set to be proportional to velocity even though that's not actually how drag works
+            Vector3 propulsion = dragCoefficient * maxSpeed * playerMoveInputDirection;
+            Vector3 drag = dragCoefficient * localCurrentVelocity;
+
+            return propulsion - drag;
+        }
+
+        return Vector3.zero;
     }
 
     private void FixedUpdate()
     {
+        isGrounded = Utils.IsGrounded(myBoxCollider, myRigidbody, ref groundCheckHit);
+
         Vector3 currentVelocity = myRigidbody.velocity;
         localCurrentVelocity = transform.InverseTransformDirection(currentVelocity);
         float speedSquared = Vector3.SqrMagnitude(localCurrentVelocity);
