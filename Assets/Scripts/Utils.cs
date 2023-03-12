@@ -4,7 +4,7 @@ using UnityEngine;
 public static class Utils
 {
     static float groundCheckSizeMultiplier = 0.9f;
-    static float groundCheckDistance = 0.05f;
+    static float groundCheckDistance = 0.01f;
 
     // perf
     // if you do run into perfromance issues, take object number and frame and store information in a dictionary (dictionary allows you to do a fast search)

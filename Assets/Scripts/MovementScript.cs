@@ -64,6 +64,9 @@ public class MovementScript : MonoBehaviour
 
     private void FixedUpdate()
     {
+
+        Debug.Log(myRigidbody.position);
+
         isGrounded = Utils.IsGrounded(myBoxCollider, myRigidbody, ref groundCheckHit);
 
         Vector3 currentVelocity = myRigidbody.velocity;

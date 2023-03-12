@@ -16,12 +16,14 @@ public class Jump : MonoBehaviour
     bool isGrounded = true;
     RaycastHit groundCheckHit;
 
-    bool JumpIsPressed = false;
+    bool jumpIsPressed = false;
 
     float jumpHeight = 10f;
     float GravityStrength;
     float initialJumpSpeed;
     Vector3 jumpForce;
+
+    float jumpTimeCounter = 0.0f;
 
     // number of seconds before jump can be pressed again
     float jumpCooldown = 0.5f;
@@ -30,6 +32,7 @@ public class Jump : MonoBehaviour
     // records whether the player has pressed jump recently.
     // Needed to disable drag in the ground movement script  
     public bool JumpRecentlyPressed { get; private set; } = false;
+    float jumpRecentlyPressedTimeLimit = 0.1f;
 
     // Start is called before the first frame update
     void Start()
@@ -66,16 +69,28 @@ public class Jump : MonoBehaviour
 
     void FixedUpdate()
     {
+        jumpTimeCounter += Time.fixedDeltaTime;
+
         isGrounded = Utils.IsGrounded(myBoxCollider, myRigidbody, ref groundCheckHit);
 
-        JumpIsPressed = GetJumpInput();
+        jumpIsPressed = GetJumpInput();
 
-        if (JumpIsPressed == true && isJumpEnabled && isGrounded )
+        if (jumpIsPressed == true && isJumpEnabled && isGrounded )
         {
             myRigidbody.AddForce(jumpForce, ForceMode.Force);
             isJumpEnabled = false;
             JumpRecentlyPressed = true;
+            jumpTimeCounter = 0f;
         }
 
+        if ( jumpTimeCounter >= jumpCooldown )
+        {
+            isJumpEnabled = true;
+        }
+
+        if ( jumpTimeCounter >= jumpRecentlyPressedTimeLimit)
+        {
+            JumpRecentlyPressed = false;
+        }
     }
 }
