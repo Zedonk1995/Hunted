@@ -19,7 +19,6 @@ public class MovementScript : MonoBehaviour
     public float maxSpeed { get; set; } = 10.0f;
     public float dragCoefficient { get; set; } = 10.0f;
 
-    Jump jumpScript = null;
     bool jumpRecentlyPressed = false;
 
     // Start is called before the first frame update
@@ -41,6 +40,7 @@ public class MovementScript : MonoBehaviour
         return new Vector3(input.MoveInput.x, 0.0f, input.MoveInput.y);
     }
 
+    // this function works in local coordinates.
     private Vector3 getPlayerMove(Vector3 moveInput)
     {
         playerMoveInputDirection = new Vector3(moveInput.x, moveInput.y, moveInput.z).normalized;
@@ -52,8 +52,18 @@ public class MovementScript : MonoBehaviour
 
         if (isGrounded && !jumpRecentlyPressed)
         {
+            Vector3 localGroundCheckHitNormal = transform.InverseTransformDirection(groundCheckHit.normal);
+            
+            float groundSlopeAngle = Vector3.Angle(Vector3.up, localGroundCheckHitNormal);
+
+            Quaternion slopeAngleRotation = Quaternion.FromToRotation(Vector3.up, localGroundCheckHitNormal);
+
+            Vector3 directionOfPropulsion = slopeAngleRotation * playerMoveInputDirection;
+
+            Debug.Log(directionOfPropulsion);
+
             // Unity cannot handle large numbers so drag is set to be proportional to velocity even though that's not actually how drag works
-            Vector3 propulsion = dragCoefficient * maxSpeed * playerMoveInputDirection;
+            Vector3 propulsion = dragCoefficient * maxSpeed * directionOfPropulsion;
             Vector3 drag = dragCoefficient * localCurrentVelocity;
 
             return propulsion - drag;
@@ -64,9 +74,6 @@ public class MovementScript : MonoBehaviour
 
     private void FixedUpdate()
     {
-
-        Debug.Log(myRigidbody.position);
-
         isGrounded = Utils.IsGrounded(myBoxCollider, myRigidbody, ref groundCheckHit);
 
         Vector3 currentVelocity = myRigidbody.velocity;
