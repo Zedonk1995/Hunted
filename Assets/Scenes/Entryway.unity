@@ -185,12 +185,12 @@ PrefabInstance:
     - target: {fileID: 934018719651323001, guid: 4cda83b611d9c224a974397747ccad47,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 7
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 934018719651323001, guid: 4cda83b611d9c224a974397747ccad47,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 42.336
+      value: 1.336
       objectReference: {fileID: 0}
     - target: {fileID: 934018719651323001, guid: 4cda83b611d9c224a974397747ccad47,
         type: 3}
@@ -904,15 +904,9 @@ MonoBehaviour:
   m_Mesh: {fileID: 1719394933}
   m_VersionIndex: 5391
   m_IsSelectable: 1
-  m_SelectedFaces: 01000000
-  m_SelectedEdges:
-  - a: 4
-    b: 5
-  - a: 5
-    b: 6
-  - a: 6
-    b: 4
-  m_SelectedVertices: 040000000500000006000000
+  m_SelectedFaces: 
+  m_SelectedEdges: []
+  m_SelectedVertices: 
 --- !u!4 &148763794
 Transform:
   m_ObjectHideFlags: 0
