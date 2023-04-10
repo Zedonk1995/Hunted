@@ -7,7 +7,7 @@ public class LookVertical : MonoBehaviour
 {
    float mouseY;
 
-    private float mouseSensitivity = 50.0f;
+    private float mouseSensitivity = 200.0f;
 
     Vector2 LookInput = Vector2.zero;
 

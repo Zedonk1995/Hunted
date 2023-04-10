@@ -9,7 +9,7 @@ public class LookHorizontal : MonoBehaviour
 
     float mouseX;
 
-    private readonly float mouseSensitivity = 50.0f;
+    private readonly float mouseSensitivity = 200.0f;
 
     Vector2 LookInput = Vector2.zero;
 

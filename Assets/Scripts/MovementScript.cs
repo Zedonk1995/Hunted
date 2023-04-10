@@ -11,15 +11,11 @@ public class MovementScript : MonoBehaviour
     bool isGrounded = true;
     RaycastHit groundCheckHit;
 
-    Vector3 moveInput = Vector3.zero;
-
     private Vector3 playerMoveInputDirection = Vector3.zero;
     private Vector3 localCurrentVelocity = Vector3.zero;
 
     public float maxSpeed { get; set; } = 10.0f;
     public float dragCoefficient { get; set; } = 10.0f;
-
-    bool jumpRecentlyPressed = false;
 
     // Start is called before the first frame update
     void Start()
@@ -32,7 +28,7 @@ public class MovementScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     private Vector3 GetMoveInput()
@@ -40,51 +36,78 @@ public class MovementScript : MonoBehaviour
         return new Vector3(input.MoveInput.x, 0.0f, input.MoveInput.y);
     }
 
-    // this function works in local coordinates.
-    private Vector3 getPlayerMove(Vector3 moveInput)
+
+    //this function works in local coordinates.
+    private Vector3 getPropulsion(Vector3 moveInput)
     {
-        playerMoveInputDirection = new Vector3(moveInput.x, moveInput.y, moveInput.z).normalized;
-
-        if (TryGetComponent(out Jump jumpScript))
+        if (IsAirborne())
         {
-            jumpRecentlyPressed = jumpScript.JumpRecentlyPressed;
+            return Vector3.zero;
         }
 
-        if (isGrounded && !jumpRecentlyPressed)
-        {
-            Vector3 localGroundCheckHitNormal = transform.InverseTransformDirection(groundCheckHit.normal);
-            
-            float groundSlopeAngle = Vector3.Angle(Vector3.up, localGroundCheckHitNormal);
+        Vector3 directionOfPropulsion = GetDirectionOfPropulsion(moveInput);
 
-            Quaternion slopeAngleRotation = Quaternion.FromToRotation(Vector3.up, localGroundCheckHitNormal);
+        Debug.DrawRay(myRigidbody.position, 10 * transform.TransformDirection( directionOfPropulsion));
 
-            Vector3 directionOfPropulsion = slopeAngleRotation * playerMoveInputDirection;
+        float slopeMultiplier = MovementSlopeMultiplier(directionOfPropulsion);
 
-            Debug.Log(directionOfPropulsion);
+        // Unity cannot handle large numbers so drag is set to be proportional to velocity even though that's not actually how drag works
+        Vector3 forceFromPlayer = dragCoefficient * maxSpeed * directionOfPropulsion;
 
-            // Unity cannot handle large numbers so drag is set to be proportional to velocity even though that's not actually how drag works
-            Vector3 propulsion = dragCoefficient * maxSpeed * directionOfPropulsion;
-            Vector3 drag = dragCoefficient * localCurrentVelocity;
+        Vector3 drag = dragCoefficient * localCurrentVelocity;
 
-            return propulsion - drag;
-        }
-
-        return Vector3.zero;
+        return slopeMultiplier * forceFromPlayer - drag;
     }
 
     private void FixedUpdate()
     {
-        isGrounded = Utils.IsGrounded(myBoxCollider, myRigidbody, ref groundCheckHit);
+        isGrounded = Utils.IsGrounded(myBoxCollider, myRigidbody, out groundCheckHit);
 
         Vector3 currentVelocity = myRigidbody.velocity;
         localCurrentVelocity = transform.InverseTransformDirection(currentVelocity);
-        float speedSquared = Vector3.SqrMagnitude(localCurrentVelocity);
 
-        moveInput = GetMoveInput();
-        moveInput = getPlayerMove(moveInput);
+        Vector3 moveInput = GetMoveInput();
+        Vector3 propulsion = getPropulsion(moveInput);
 
-        myRigidbody.AddRelativeForce(moveInput * myRigidbody.mass, ForceMode.Force); // ForceMode.Force is the default value but I put in there for clarity
+        myRigidbody.AddRelativeForce(propulsion * myRigidbody.mass, ForceMode.Force); // ForceMode.Force is the default value but I put in there for clarity
     }
 
+    private bool IsAirborne()
+    {
+        //If performance issue move get component to Start()
+        // perf
+        bool jumpRecentlyPressed = TryGetComponent(out Jump jumpScript) && jumpScript.JumpRecentlyPressed;
+
+        return !isGrounded || jumpRecentlyPressed;
+    }
+
+    private Vector3 GetDirectionOfPropulsion(Vector3 moveInput)
+    {
+        playerMoveInputDirection = moveInput.normalized;
+
+        Vector3 localGroundCheckHitNormal = transform.InverseTransformDirection(groundCheckHit.normal);
+
+        Quaternion slopeAngleRotation = Quaternion.FromToRotation(Vector3.up, localGroundCheckHitNormal);
+
+        return slopeAngleRotation * playerMoveInputDirection;
+    }
+
+    // Multiplier for doing down slopes (playerSlopeAngle is positive when going down slopes, negative otherwise)
+    private float MovementSlopeMultiplier(Vector3 directionOfPropulsion)
+    {
+        float playerSlopeAngle = directionOfPropulsion != Vector3.zero
+            ? Vector3.Angle(Vector3.up, directionOfPropulsion) - 90
+            : 0;
+
+        float inverseSlopeFactor = 90f;
+
+        /*
+         *  To change the slope movement effect change inverseSlopeFactor.  If this is too low then zigzagging becomes the optimal strategy.
+         *  The angle of slope where player has max vertical velocity is the solution this equation: 
+         *  inverseSlopeFactor = theta + tan(theta)
+         *  (theta is the angle the player is travelling up)
+        */
+        return 1 + playerSlopeAngle / inverseSlopeFactor;
+    }
 
 }
