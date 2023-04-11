@@ -30,6 +30,11 @@ public class Gravity : MonoBehaviour
 
     void FixedUpdate()
     {
-        myRigidbody.AddForce(mass * GravityStrength * Vector3.down, ForceMode.Force);
+        bool isGrounded = Utils.IsGrounded(myBoxCollider, myRigidbody, out _);
+
+        if (!isGrounded)
+        {
+            myRigidbody.AddForce(mass * GravityStrength * Vector3.down, ForceMode.Force);
+        }
     }
 }
