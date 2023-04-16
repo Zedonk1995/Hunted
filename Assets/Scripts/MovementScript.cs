@@ -11,11 +11,13 @@ public class MovementScript : MonoBehaviour
     bool isGrounded = true;
     RaycastHit groundCheckHit;
 
-    private Vector3 playerMoveInputDirection = Vector3.zero;
-    private Vector3 localCurrentVelocity = Vector3.zero;
+    Vector3 playerMoveInputDirection = Vector3.zero;
+    Vector3 localCurrentVelocity = Vector3.zero;
 
-    public float maxSpeed { get; set; } = 10.0f;
-    public float dragCoefficient { get; set; } = 10.0f;
+    float MaxSpeed { get; set; } = 10.0f;
+    float DragCoefficient { get; set; } = 10.0f;
+
+    float AirControlFactor { get; set; } = 1.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -25,36 +27,49 @@ public class MovementScript : MonoBehaviour
         input = GetComponent<ILandInput>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-    private Vector3 GetMoveInput()
-    {
-        return new Vector3(input.MoveInput.x, 0.0f, input.MoveInput.y);
-    }
-
-
     //this function works in local coordinates.
     private Vector3 getPropulsion(Vector3 moveInput)
     {
         if (IsAirborne())
         {
-            return Vector3.zero;
+            playerMoveInputDirection = moveInput.normalized;
+
+            Vector3 airborneForceFromPlayer = AirControlFactor * MaxSpeed * playerMoveInputDirection;
+
+            Vector3 playerVelocity = transform.InverseTransformDirection(myRigidbody.velocity);
+            Vector3 horizontalPlayerVelocity = Vector3.ProjectOnPlane(playerVelocity, Vector3.up);
+            float horizontalPlayerSpeed = horizontalPlayerVelocity.magnitude;
+
+
+
+             if (horizontalPlayerSpeed > MaxSpeed) {
+                float magnitudeOfForceFromPlayerInDirectionOfHorizontalVelocity = Vector3.Dot(airborneForceFromPlayer, horizontalPlayerVelocity.normalized);
+
+                if ( magnitudeOfForceFromPlayerInDirectionOfHorizontalVelocity >= 0)
+                {
+                    Vector3 propulsion = airborneForceFromPlayer - magnitudeOfForceFromPlayerInDirectionOfHorizontalVelocity * horizontalPlayerVelocity.normalized;
+
+                    Debug.Log(propulsion);
+                    return propulsion;
+                }
+            }
+
+            Debug.Log(airborneForceFromPlayer);
+
+            
+            return airborneForceFromPlayer;
         }
 
-        Vector3 directionOfPropulsion = GetDirectionOfPropulsion(moveInput);
+        Vector3 directionOfPropulsion = GetDirectionOfGroundedPropulsion(moveInput);
 
         Debug.DrawRay(myRigidbody.position, 10 * transform.TransformDirection( directionOfPropulsion));
 
         float slopeMultiplier = MovementSlopeMultiplier(directionOfPropulsion);
 
         // Unity cannot handle large numbers so drag is set to be proportional to velocity even though that's not actually how drag works
-        Vector3 forceFromPlayer = dragCoefficient * maxSpeed * directionOfPropulsion;
+        Vector3 forceFromPlayer = DragCoefficient * MaxSpeed * directionOfPropulsion;
 
-        Vector3 drag = dragCoefficient * localCurrentVelocity;
+        Vector3 drag = DragCoefficient * localCurrentVelocity;
 
         return slopeMultiplier * forceFromPlayer - drag;
     }
@@ -71,7 +86,10 @@ public class MovementScript : MonoBehaviour
 
         myRigidbody.AddRelativeForce(propulsion * myRigidbody.mass, ForceMode.Force); // ForceMode.Force is the default value but I put in there for clarity
     }
-
+    private Vector3 GetMoveInput()
+    {
+        return new Vector3(input.MoveInput.x, 0.0f, input.MoveInput.y);
+    }
     private bool IsAirborne()
     {
         //If performance issue move get component to Start()
@@ -81,7 +99,7 @@ public class MovementScript : MonoBehaviour
         return !isGrounded || jumpRecentlyPressed;
     }
 
-    private Vector3 GetDirectionOfPropulsion(Vector3 moveInput)
+    private Vector3 GetDirectionOfGroundedPropulsion(Vector3 moveInput)
     {
         playerMoveInputDirection = moveInput.normalized;
 
