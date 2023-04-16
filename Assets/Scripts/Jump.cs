@@ -57,6 +57,8 @@ public class Jump : MonoBehaviour
 
         if (jumpIsPressed == true && isJumpOffCooldown && isGrounded )
         {
+            myRigidbody.velocity = new Vector3( myRigidbody.velocity.x, 0, myRigidbody.velocity.z );
+
             myRigidbody.AddForce(Vector3.up * initialJumpSpeed, ForceMode.VelocityChange);
             jumpPressedTime = Time.time;
         }
