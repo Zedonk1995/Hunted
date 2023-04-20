@@ -27,42 +27,35 @@ public class MovementScript : MonoBehaviour
         input = GetComponent<ILandInput>();
     }
 
+    private void FixedUpdate()
+    {
+        isGrounded = Utils.IsGrounded(myBoxCollider, myRigidbody, out groundCheckHit);
+
+        Vector3 currentVelocity = myRigidbody.velocity;
+        localCurrentVelocity = transform.InverseTransformDirection(currentVelocity);
+
+        Vector3 moveInput = GetMoveInput();
+        Vector3 propulsion = GetPropulsion(moveInput);
+
+        myRigidbody.AddRelativeForce(propulsion * myRigidbody.mass, ForceMode.Force); // ForceMode.Force is the default value but I put in there for clarity
+    }
+
+    private Vector3 GetMoveInput()
+    {
+        return new Vector3(input.MoveInput.x, 0.0f, input.MoveInput.y);
+    }
+
     //this function works in local coordinates.
-    private Vector3 getPropulsion(Vector3 moveInput)
+    private Vector3 GetPropulsion(Vector3 moveInput)
     {
         if (IsAirborne())
         {
-            playerMoveInputDirection = moveInput.normalized;
-
-            Vector3 airborneForceFromPlayer = AirControlFactor * MaxSpeed * playerMoveInputDirection;
-
-            Vector3 playerVelocity = transform.InverseTransformDirection(myRigidbody.velocity);
-            Vector3 horizontalPlayerVelocity = Vector3.ProjectOnPlane(playerVelocity, Vector3.up);
-            float horizontalPlayerSpeed = horizontalPlayerVelocity.magnitude;
-
-
-
-             if (horizontalPlayerSpeed > MaxSpeed) {
-                float magnitudeOfForceFromPlayerInDirectionOfHorizontalVelocity = Vector3.Dot(airborneForceFromPlayer, horizontalPlayerVelocity.normalized);
-
-                if ( magnitudeOfForceFromPlayerInDirectionOfHorizontalVelocity >= 0)
-                {
-                    Vector3 propulsion = airborneForceFromPlayer - magnitudeOfForceFromPlayerInDirectionOfHorizontalVelocity * horizontalPlayerVelocity.normalized;
-
-                    Debug.Log(propulsion);
-                    return propulsion;
-                }
-            }
-
-            Debug.Log(airborneForceFromPlayer);
-
-            
-            return airborneForceFromPlayer;
+            return CalculateAirbornePropulsion(moveInput);
         }
 
         Vector3 directionOfPropulsion = GetDirectionOfGroundedPropulsion(moveInput);
 
-        Debug.DrawRay(myRigidbody.position, 10 * transform.TransformDirection( directionOfPropulsion));
+        Debug.DrawRay(myRigidbody.position, 10 * transform.TransformDirection(directionOfPropulsion));
 
         float slopeMultiplier = MovementSlopeMultiplier(directionOfPropulsion);
 
@@ -74,22 +67,6 @@ public class MovementScript : MonoBehaviour
         return slopeMultiplier * forceFromPlayer - drag;
     }
 
-    private void FixedUpdate()
-    {
-        isGrounded = Utils.IsGrounded(myBoxCollider, myRigidbody, out groundCheckHit);
-
-        Vector3 currentVelocity = myRigidbody.velocity;
-        localCurrentVelocity = transform.InverseTransformDirection(currentVelocity);
-
-        Vector3 moveInput = GetMoveInput();
-        Vector3 propulsion = getPropulsion(moveInput);
-
-        myRigidbody.AddRelativeForce(propulsion * myRigidbody.mass, ForceMode.Force); // ForceMode.Force is the default value but I put in there for clarity
-    }
-    private Vector3 GetMoveInput()
-    {
-        return new Vector3(input.MoveInput.x, 0.0f, input.MoveInput.y);
-    }
     private bool IsAirborne()
     {
         //If performance issue move get component to Start()
@@ -97,6 +74,37 @@ public class MovementScript : MonoBehaviour
         bool jumpRecentlyPressed = TryGetComponent(out Jump jumpScript) && jumpScript.JumpRecentlyPressed;
 
         return !isGrounded || jumpRecentlyPressed;
+    }
+
+    private Vector3 CalculateAirbornePropulsion(Vector3 moveInput)
+    {
+        playerMoveInputDirection = moveInput.normalized;
+
+        Vector3 airborneForceFromPlayer = AirControlFactor * MaxSpeed * playerMoveInputDirection;
+
+        Vector3 horizontalPlayerVelocity = GetHorizontalPlayerVelocity();
+        float horizontalPlayerSpeed = horizontalPlayerVelocity.magnitude;
+        float playerForceInDirectionOfHorizontalVelocity = GetComponentOfVector1InDirectionOfVector2(airborneForceFromPlayer, horizontalPlayerVelocity);
+
+        if (horizontalPlayerSpeed > MaxSpeed && playerForceInDirectionOfHorizontalVelocity >= 0)
+        {
+            Vector3 propulsion = airborneForceFromPlayer - playerForceInDirectionOfHorizontalVelocity * horizontalPlayerVelocity.normalized;
+            return propulsion;
+        }
+        return airborneForceFromPlayer;
+    }
+
+    private Vector3 GetHorizontalPlayerVelocity()
+    {
+        Vector3 playerVelocity = transform.InverseTransformDirection(myRigidbody.velocity);
+        return Vector3.ProjectOnPlane(playerVelocity, Vector3.up);
+    }
+
+
+    // Calculates the component of FirstVector in the direction of SecondVector
+    private float GetComponentOfVector1InDirectionOfVector2(Vector3 FirstVector, Vector3 SecondVector)
+    {
+        return Vector3.Dot(FirstVector, SecondVector.normalized);
     }
 
     private Vector3 GetDirectionOfGroundedPropulsion(Vector3 moveInput)
