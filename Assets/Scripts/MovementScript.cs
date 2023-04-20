@@ -84,7 +84,7 @@ public class MovementScript : MonoBehaviour
 
         Vector3 horizontalPlayerVelocity = GetHorizontalPlayerVelocity();
         float horizontalPlayerSpeed = horizontalPlayerVelocity.magnitude;
-        float playerForceInDirectionOfHorizontalVelocity = GetComponentOfVector1InDirectionOfVector2(airborneForceFromPlayer, horizontalPlayerVelocity);
+        float playerForceInDirectionOfHorizontalVelocity = airborneForceFromPlayer.GetComponentInDirectionOf(horizontalPlayerVelocity);
 
         if (horizontalPlayerSpeed > MaxSpeed && playerForceInDirectionOfHorizontalVelocity >= 0)
         {
@@ -98,13 +98,6 @@ public class MovementScript : MonoBehaviour
     {
         Vector3 playerVelocity = transform.InverseTransformDirection(myRigidbody.velocity);
         return Vector3.ProjectOnPlane(playerVelocity, Vector3.up);
-    }
-
-
-    // Calculates the component of FirstVector in the direction of SecondVector
-    private float GetComponentOfVector1InDirectionOfVector2(Vector3 FirstVector, Vector3 SecondVector)
-    {
-        return Vector3.Dot(FirstVector, SecondVector.normalized);
     }
 
     private Vector3 GetDirectionOfGroundedPropulsion(Vector3 moveInput)
