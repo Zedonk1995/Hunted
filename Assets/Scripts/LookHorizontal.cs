@@ -1,13 +1,13 @@
    using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 // --------------------- HORIZONTAL MOUSELOOK -----------------------
 public class LookHorizontal : MonoBehaviour
 {
-    Rigidbody myRigidbody = null;
-
     float mouseX;
+    float yaw = 0f;
 
     private readonly float mouseSensitivity = 200.0f;
 
@@ -18,8 +18,6 @@ public class LookHorizontal : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        myRigidbody = GetComponent<Rigidbody>();
-
         Cursor.lockState = CursorLockMode.Locked;
 
         // I'm not sure this is needed.
@@ -32,6 +30,10 @@ public class LookHorizontal : MonoBehaviour
         LookInput = input.LookInput;
         mouseX = LookInput.x * mouseSensitivity * Time.deltaTime;
 
-        myRigidbody.transform.Rotate(Vector3.up * mouseX, Space.World);
+        yaw += mouseX;
+
+        Quaternion rotation = this.transform.localRotation;
+
+        this.transform.localRotation = Quaternion.Euler(rotation.x, yaw, rotation.z);
     }
 }

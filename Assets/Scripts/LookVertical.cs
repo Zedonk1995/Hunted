@@ -5,7 +5,8 @@ using UnityEngine;
 // --------------------- VERTICAL MOUSELOOK -----------------------
 public class LookVertical : MonoBehaviour
 {
-   float mouseY;
+    float mouseY;
+    float pitch = 0f;
 
     private float mouseSensitivity = 200.0f;
 
@@ -25,6 +26,11 @@ public class LookVertical : MonoBehaviour
         LookInput = input.LookInput;
         mouseY = -LookInput.y * mouseSensitivity * Time.deltaTime;
 
-        this.transform.Rotate(Vector3.right * mouseY);
+        pitch += mouseY;
+        pitch = Mathf.Clamp(pitch, -89f, 89f);
+
+        Quaternion rotation = this.transform.localRotation;
+
+        this.transform.localRotation = Quaternion.Euler(pitch, rotation.y, rotation.z);
     }
 }

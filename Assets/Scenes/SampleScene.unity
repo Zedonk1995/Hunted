@@ -1927,6 +1927,26 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &1023871580 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8414562549871471427, guid: 4cda83b611d9c224a974397747ccad47,
+    type: 3}
+  m_PrefabInstance: {fileID: 1687733631}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1023871582
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1023871580}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1173aacc7bd8cc34aae3eea25282dd5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minRotation: -90
+  maxRotation: 90
 --- !u!1 &1028288998
 GameObject:
   m_ObjectHideFlags: 0
@@ -2850,6 +2870,31 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7927978710300503843, guid: 4cda83b611d9c224a974397747ccad47,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7927978710300503843, guid: 4cda83b611d9c224a974397747ccad47,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7927978710300503843, guid: 4cda83b611d9c224a974397747ccad47,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7927978710300503843, guid: 4cda83b611d9c224a974397747ccad47,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7927978710300503843, guid: 4cda83b611d9c224a974397747ccad47,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8090649642888384756, guid: 4cda83b611d9c224a974397747ccad47,
         type: 3}
       propertyPath: m_Enabled
@@ -2863,7 +2908,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8414562549871471427, guid: 4cda83b611d9c224a974397747ccad47,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1023871582}
   m_SourcePrefab: {fileID: 100100000, guid: 4cda83b611d9c224a974397747ccad47, type: 3}
 --- !u!1 &1704868051
 GameObject:
