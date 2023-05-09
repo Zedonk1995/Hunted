@@ -8,6 +8,8 @@ public class MovementScript : MonoBehaviour
     Rigidbody myRigidbody = null;
     ILandInput input = null;
 
+    AnimatorController animatorController = null;
+
     bool isGrounded = true;
     RaycastHit groundCheckHit;
 
@@ -25,6 +27,8 @@ public class MovementScript : MonoBehaviour
         myBoxCollider = GetComponent<BoxCollider>();
         myRigidbody = GetComponent<Rigidbody>();
         input = GetComponent<ILandInput>();
+
+        animatorController = GetComponent<AnimatorController>();
     }
 
     private void FixedUpdate()
@@ -36,6 +40,12 @@ public class MovementScript : MonoBehaviour
 
         Vector3 moveInput = GetMoveInput();
         Vector3 propulsion = GetPropulsion(moveInput);
+
+        if ( moveInput != Vector3.zero) {
+            animatorController.ChangeAnimationState(AnimatorController.StateSelector.Run);
+        } else {
+            animatorController.ChangeAnimationState(AnimatorController.StateSelector.Idle);
+        }
 
         myRigidbody.AddRelativeForce(propulsion * myRigidbody.mass, ForceMode.Force); // ForceMode.Force is the default value but I put in there for clarity
     }
