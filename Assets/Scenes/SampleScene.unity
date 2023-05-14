@@ -3458,7 +3458,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Idle: WK_heavy_infantry_05_combat_idle
   Run: WK_heavy_infantry_04_charge
-  Attack: WK_heavy_infantry_08_attack_b
+  Attack: WK_heavy_infantry_08_attack_B
 --- !u!1 &2067914149
 GameObject:
   m_ObjectHideFlags: 0

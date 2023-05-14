@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 
 public class AnimatorController : MonoBehaviour
@@ -10,6 +9,8 @@ public class AnimatorController : MonoBehaviour
     [SerializeField] private string Idle;
     [SerializeField] private string Run;
     [SerializeField] private string Attack;
+
+    public bool IsAttacking { get; set; } = false;
 
     public enum StateSelector
     {
