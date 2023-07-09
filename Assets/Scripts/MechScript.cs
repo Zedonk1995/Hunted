@@ -2,11 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MechScript : MonoBehaviour, ILandInput
+public class MechScript : MonoBehaviour, ILandMovementInput
 {
-
-
-
     private GameObject player;
     private Vector3 PlayerAiVector => player.transform.position - transform.position;
     private Vector3 PlayerHorizontalAiVector => Vector3.ProjectOnPlane(PlayerAiVector, Vector3.up);

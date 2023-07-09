@@ -6,7 +6,7 @@ public class MovementScript : MonoBehaviour
 {
     BoxCollider myBoxCollider = null;
     Rigidbody myRigidbody = null;
-    ILandInput input = null;
+    ILandMovementInput input = null;
 
     AnimatorController animatorController = null;
 
@@ -26,9 +26,9 @@ public class MovementScript : MonoBehaviour
     {
         myBoxCollider = GetComponent<BoxCollider>();
         myRigidbody = GetComponent<Rigidbody>();
-        input = GetComponent<ILandInput>();
+        input = GetComponent<ILandMovementInput>();
 
-        animatorController = GetComponent<AnimatorController>();
+        // animatorController = GetComponent<AnimatorController>();
     }
 
     private void FixedUpdate()
@@ -41,13 +41,13 @@ public class MovementScript : MonoBehaviour
         Vector3 moveInput = GetMoveInput();
         Vector3 propulsion = GetPropulsion(moveInput);
 
-        bool isAttacking = animatorController.IsAttacking;
+        //bool isAttacking = animatorController.IsAttacking;
 
-        if ( moveInput != Vector3.zero && !isAttacking ) {
-            animatorController.ChangeAnimationState(AnimatorController.StateSelector.Run);
-        } else if ( !isAttacking ) {
-           animatorController.ChangeAnimationState(AnimatorController.StateSelector.Idle);
-        }
+        //if ( moveInput != Vector3.zero && !isAttacking ) {
+        //    animatorController.ChangeAnimationState(AnimatorController.StateSelector.Run);
+        //} else if ( !isAttacking ) {
+        //   animatorController.ChangeAnimationState(AnimatorController.StateSelector.Idle);
+        //}
 
         myRigidbody.AddRelativeForce(propulsion * myRigidbody.mass, ForceMode.Force); // ForceMode.Force is the default value but I put in there for clarity
     }

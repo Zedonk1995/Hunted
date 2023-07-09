@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerLandInput : MonoBehaviour, ILandInput
+public class PlayerLandInput : MonoBehaviour, ILandMovementInput
 {
     public Vector2 MoveInput { get; private set; } = Vector2.zero;
     public Vector2 LookInput { get; private set; } = Vector2.zero;

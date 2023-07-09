@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
-public class BiteyThingController : MonoBehaviour, ILandInput
+public class BiteyThingController : MonoBehaviour, ILandMovementInput
 {
     public Vector2 MoveInput { get; private set;  }
 
