@@ -5,21 +5,19 @@ using UnityEngine;
 
 public class Gun : MonoBehaviour
 {
-    AnimatorController animatorController = null;
-    Animator animator = null;
+    IIsAttacking animatorController = null;
 
     public Transform BulletOrigin;
     public GameObject bulletPrefab;
     float timeFiredInterval = 0.1f;
     float timeLastFired = 0f;
 
-    float attackDelay = 1f;
+    float attackDelay = 1.2f;
 
     // Start is called before the first frame update
     void Start()
     {
-        animatorController = GetComponentInParent<AnimatorController>();
-        animator = GetComponentInParent<Animator>();
+        animatorController = GetComponentInParent<IIsAttacking>();
     }
 
     private void FixedUpdate()
@@ -32,14 +30,11 @@ public class Gun : MonoBehaviour
                 Instantiate(bulletPrefab, BulletOrigin.position, BulletOrigin.rotation);
             }
 
-            bool isAttacking = animatorController.IsAttacking;
-
-            if (!isAttacking)
+            if (animatorController != null && !animatorController.IsAttacking)
             {
-                animatorController.ChangeAnimationState(AnimatorController.StateSelector.Attack);
-
                 animatorController.IsAttacking = true;
-                Invoke("AttackComplete", attackDelay);
+
+                Invoke(nameof(AttackComplete), attackDelay);
             }
         }
     }
@@ -47,9 +42,5 @@ public class Gun : MonoBehaviour
     private void AttackComplete()
     {
         animatorController.IsAttacking = false;
-        animatorController.ChangeAnimationState(AnimatorController.StateSelector.Idle);
     }
-
-
-
 }

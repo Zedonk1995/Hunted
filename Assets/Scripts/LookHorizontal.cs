@@ -6,6 +6,8 @@ using UnityEngine.InputSystem;
 // --------------------- HORIZONTAL MOUSELOOK -----------------------
 public class LookHorizontal : MonoBehaviour
 {
+    ILookHorizontalInput input = null;
+
     float mouseX;
     float yaw = 0f;
 
@@ -13,11 +15,11 @@ public class LookHorizontal : MonoBehaviour
 
     Vector2 LookInput = Vector2.zero;
 
-    [SerializeField] PlayerLandInput input;
-
     // Start is called before the first frame update
     void Start()
     {
+        input = GetComponent<ILookHorizontalInput>();
+
         Cursor.lockState = CursorLockMode.Locked;
 
         // I'm not sure this is needed.

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,9 +7,9 @@ public class MovementScript : MonoBehaviour
 {
     BoxCollider myBoxCollider = null;
     Rigidbody myRigidbody = null;
+    
     ILandMovementInput input = null;
-
-    AnimatorController animatorController = null;
+    IIsMoving animatorController = null;
 
     bool isGrounded = true;
     RaycastHit groundCheckHit;
@@ -26,39 +27,36 @@ public class MovementScript : MonoBehaviour
     {
         myBoxCollider = GetComponent<BoxCollider>();
         myRigidbody = GetComponent<Rigidbody>();
-        input = GetComponent<ILandMovementInput>();
 
-        // animatorController = GetComponent<AnimatorController>();
+        input = GetComponent<ILandMovementInput>();
+        animatorController = GetComponent<IIsMoving>();
     }
 
-    private void FixedUpdate()
+    void Update()
+    {
+        AnimateMovement();
+    }
+
+    void FixedUpdate()
     {
         isGrounded = Utils.IsGrounded(myBoxCollider, myRigidbody, out groundCheckHit);
 
         Vector3 currentVelocity = myRigidbody.velocity;
         localCurrentVelocity = transform.InverseTransformDirection(currentVelocity);
-
+                   
         Vector3 moveInput = GetMoveInput();
         Vector3 propulsion = GetPropulsion(moveInput);
-
-        //bool isAttacking = animatorController.IsAttacking;
-
-        //if ( moveInput != Vector3.zero && !isAttacking ) {
-        //    animatorController.ChangeAnimationState(AnimatorController.StateSelector.Run);
-        //} else if ( !isAttacking ) {
-        //   animatorController.ChangeAnimationState(AnimatorController.StateSelector.Idle);
-        //}
 
         myRigidbody.AddRelativeForce(propulsion * myRigidbody.mass, ForceMode.Force); // ForceMode.Force is the default value but I put in there for clarity
     }
 
-    private Vector3 GetMoveInput()
+    Vector3 GetMoveInput()
     {
         return new Vector3(input.MoveInput.x, 0.0f, input.MoveInput.y);
     }
 
     //this function works in local coordinates.
-    private Vector3 GetPropulsion(Vector3 moveInput)
+    Vector3 GetPropulsion(Vector3 moveInput)
     {
         if (IsAirborne())
         {
@@ -79,7 +77,7 @@ public class MovementScript : MonoBehaviour
         return slopeMultiplier * forceFromPlayer - drag;
     }
 
-    private bool IsAirborne()
+    bool IsAirborne()
     {
         //If performance issue move get component to Start()
         // perf
@@ -88,7 +86,7 @@ public class MovementScript : MonoBehaviour
         return !isGrounded || jumpRecentlyPressed;
     }
 
-    private Vector3 CalculateAirbornePropulsion(Vector3 moveInput)
+    Vector3 CalculateAirbornePropulsion(Vector3 moveInput)
     {
         playerMoveInputDirection = moveInput.normalized;
 
@@ -106,13 +104,13 @@ public class MovementScript : MonoBehaviour
         return airborneForceFromPlayer;
     }
 
-    private Vector3 GetHorizontalPlayerVelocity()
+    Vector3 GetHorizontalPlayerVelocity()
     {
         Vector3 playerVelocity = transform.InverseTransformDirection(myRigidbody.velocity);
         return Vector3.ProjectOnPlane(playerVelocity, Vector3.up);
     }
 
-    private Vector3 GetDirectionOfGroundedPropulsion(Vector3 moveInput)
+    Vector3 GetDirectionOfGroundedPropulsion(Vector3 moveInput)
     {
         playerMoveInputDirection = moveInput.normalized;
 
@@ -124,7 +122,7 @@ public class MovementScript : MonoBehaviour
     }
 
     // Multiplier for doing down slopes (playerSlopeAngle is positive when going down slopes, negative otherwise)
-    private float MovementSlopeMultiplier(Vector3 directionOfPropulsion)
+    float MovementSlopeMultiplier(Vector3 directionOfPropulsion)
     {
         float playerSlopeAngle = directionOfPropulsion != Vector3.zero
             ? Vector3.Angle(Vector3.up, directionOfPropulsion) - 90
@@ -140,5 +138,19 @@ public class MovementScript : MonoBehaviour
         */
         return 1 + playerSlopeAngle / inverseSlopeFactor;
     }
+    
+    void AnimateMovement()
+    {
+        if (animatorController == null)
+        {
+            return;
+        }
 
+        if (GetMoveInput() != Vector3.zero)
+        {
+            animatorController.IsMoving = true;
+            return;
+        }
+        animatorController.IsMoving = false;
+    }
 }

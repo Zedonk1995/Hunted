@@ -3,5 +3,4 @@
 public interface ILandMovementInput
 {
     public Vector2 MoveInput { get; }
-    public bool JumpIsPressed { get; }
 }

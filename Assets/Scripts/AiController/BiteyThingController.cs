@@ -29,7 +29,7 @@ public class BiteyThingController : MonoBehaviour, ILandMovementInput
         
     }
 
-    private void FixedUpdate()
+    void FixedUpdate()
     {
         direction = player.transform.position - transform.position;
         horizontalDirection = Vector3.ProjectOnPlane(direction, Vector3.up);

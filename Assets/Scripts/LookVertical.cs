@@ -5,6 +5,8 @@ using UnityEngine;
 // --------------------- VERTICAL MOUSELOOK -----------------------
 public class LookVertical : MonoBehaviour
 {
+    ILookVerticalInput input = null;
+
     float mouseY;
     float pitch = 0f;
 
@@ -12,12 +14,10 @@ public class LookVertical : MonoBehaviour
 
     Vector2 LookInput = Vector2.zero;
 
-    [SerializeField] PlayerLandInput input;
-
     // Start is called before the first frame update
     void Start()
     {
-
+        input = GetComponent<ILookVerticalInput>();
     }
 
     // Update is called once per frame

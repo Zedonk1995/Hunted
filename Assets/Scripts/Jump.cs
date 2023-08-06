@@ -8,7 +8,7 @@ public class Jump : MonoBehaviour
 {
     BoxCollider myBoxCollider = null;
     Rigidbody myRigidbody = null;
-    ILandMovementInput input = null;
+    IJumptInput input = null;
     Gravity gravityScript = null;
 
     bool isGrounded = true;
@@ -34,7 +34,7 @@ public class Jump : MonoBehaviour
     {
         myBoxCollider = GetComponent<BoxCollider>();
         myRigidbody = GetComponent<Rigidbody>();
-        input = GetComponent<ILandMovementInput>();
+        input = GetComponent<IJumptInput>();
 
         gravityScript = GetComponent<Gravity>();
         var gravityStrength = gravityScript.GravityStrength;

@@ -3548,7 +3548,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1832995099}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 53b801158dcc5364fb29c6533f01820d, type: 3}
+  m_Script: {fileID: 11500000, guid: 86f5f1f25379c65448844031bc63b8ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Idle: WK_heavy_infantry_05_combat_idle
@@ -3721,4 +3721,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a554b829f004d24186dfae377e12523, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  input: {fileID: 2067914151}
