@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MovementScript : MonoBehaviour
 {
@@ -17,9 +18,10 @@ public class MovementScript : MonoBehaviour
     Vector3 playerMoveInputDirection = Vector3.zero;
     Vector3 localCurrentVelocity = Vector3.zero;
 
-    float MaxSpeed { get; set; } = 10.0f;
-    float DragCoefficient { get; set; } = 10.0f;
+    [Header("Movement Settings")]
+    [SerializeField] float MaxSpeed = 10.0f;
 
+    float DragCoefficient { get; set; } = 10.0f;
     float AirControlFactor { get; set; } = 1.0f;
 
     // Start is called before the first frame update
