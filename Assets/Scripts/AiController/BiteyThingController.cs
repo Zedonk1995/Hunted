@@ -34,6 +34,7 @@ public class BiteyThingController : MonoBehaviour, ILandMovementInput
         direction = player.transform.position - transform.position;
         horizontalDirection = Vector3.ProjectOnPlane(direction, Vector3.up);
 
-        this.transform.rotation= Quaternion.LookRotation(horizontalDirection);
+        this.transform.rotation = Quaternion.LookRotation(horizontalDirection);
+        MoveInput = Vector2.up;
     }
 }
