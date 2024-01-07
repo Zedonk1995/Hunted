@@ -5,21 +5,22 @@ using UnityEngine;
 
 public class BiteyThingController : MonoBehaviour, ILandMovementInput
 {
+    AStarPathFinder aStarPathFinder = null;
+
     public Vector2 MoveInput { get; private set;  }
 
     public bool JumpIsPressed { get; private set; }
-
-    Rigidbody myRigidBody = null;
 
     GameObject player;
     Vector3 direction;
     Vector3 horizontalDirection;
 
+    private float pathCalculationInterval = 100000.0f;
+    private float timeSinceLastPathCalculation = 0.0f;
+
     // Start is called before the first frame update
     void Start()
     {
-        myRigidBody = GetComponent<Rigidbody>();
-
         player = GameObject.FindGameObjectWithTag("Player");
     }
 
@@ -31,10 +32,28 @@ public class BiteyThingController : MonoBehaviour, ILandMovementInput
 
     void FixedUpdate()
     {
-        direction = player.transform.position - transform.position;
-        horizontalDirection = Vector3.ProjectOnPlane(direction, Vector3.up);
+        if (!aStarPathFinder)
+        {
+            Debug.Log("No AStarPathFinder Script detected!  Using simple movement.");
+            direction = player.transform.position - transform.position;
+            horizontalDirection = Vector3.ProjectOnPlane(direction, Vector3.up);
 
-        this.transform.rotation = Quaternion.LookRotation(horizontalDirection);
-        MoveInput = Vector2.up;
+            this.transform.rotation = Quaternion.LookRotation(horizontalDirection);
+            MoveInput = Vector2.up;
+            return;
+        }
+
+        if (Time.time - timeSinceLastPathCalculation > pathCalculationInterval)
+        {
+            timeSinceLastPathCalculation = Time.time;
+            aStarPathFinder.CalculatePath(transform.position, player.transform.position);
+        }
+
+        // direction of path in 3d coordinates
+        Vector3 directionOfPath = aStarPathFinder.GetDirectionOfPath();
+
+        MoveInput = new Vector2(directionOfPath.x, directionOfPath.z);
+
+        Debug.DrawRay(transform.position, 100 * directionOfPath);
     }
 }
