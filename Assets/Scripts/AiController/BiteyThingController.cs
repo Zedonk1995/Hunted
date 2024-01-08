@@ -15,13 +15,15 @@ public class BiteyThingController : MonoBehaviour, ILandMovementInput
     Vector3 direction;
     Vector3 horizontalDirection;
 
-    private float pathCalculationInterval = 100000.0f;
-    private float timeSinceLastPathCalculation = 0.0f;
+    private const float pathCalculationInterval = 5.0f;
+    private float timeSinceLastPathCalculation = -pathCalculationInterval;
 
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
+
+        TryGetComponent(out aStarPathFinder);
     }
 
     // Update is called once per frame
