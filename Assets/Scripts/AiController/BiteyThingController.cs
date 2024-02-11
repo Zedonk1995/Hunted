@@ -15,7 +15,7 @@ public class BiteyThingController : MonoBehaviour, ILandMovementInput
     Vector3 direction;
     Vector3 horizontalDirection;
 
-    private const float pathCalculationInterval = 5.0f;
+    private const float pathCalculationInterval = 0.1f;
     private float timeSinceLastPathCalculation = -pathCalculationInterval;
 
     // Start is called before the first frame update
