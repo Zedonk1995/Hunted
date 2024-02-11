@@ -42,7 +42,7 @@ public class AStarPathFinder : MonoBehaviour
     }
 
     // perf - use square distance and perhaps don't call project on plane quite so much
-    // gets the direction to the next waypoint within the path
+    // returns the horizontal direction to the next waypoint in the path
     public Vector3 GetDirectionOfPath()
     {
         // project current position onto xz-plane

@@ -53,8 +53,9 @@ public class BiteyThingController : MonoBehaviour, ILandMovementInput
 
         // direction of path in 3d coordinates
         Vector3 directionOfPath = aStarPathFinder.GetDirectionOfPath();
+        this.transform.rotation = Quaternion.LookRotation(directionOfPath);
 
-        MoveInput = new Vector2(directionOfPath.x, directionOfPath.z);
+        MoveInput = Vector2.up;
 
         Debug.DrawRay(transform.position, 100 * directionOfPath);
     }
