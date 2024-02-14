@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IHealth
+public interface OldIHealth
 {
     void TakeDamage(float damage);
 }
 
 
-public class OldHealth : MonoBehaviour, IHealth
+public class OldHealth : MonoBehaviour, OldIHealth
 {
     private float health = 100f;
 
