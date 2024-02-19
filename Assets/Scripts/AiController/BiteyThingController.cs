@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class BiteyThingController : MonoBehaviour, ILandMovementInput
 {
+    BoxCollider myBoxCollider = null;
+    Rigidbody myRigidBody = null;
+
     AStarPathFinder aStarPathFinder = null;
 
     public Vector2 MoveInput { get; private set;  }
@@ -12,6 +15,8 @@ public class BiteyThingController : MonoBehaviour, ILandMovementInput
     public bool JumpIsPressed { get; private set; }
 
     GameObject player;
+    public GameObject AttackOrigin;
+
     Vector3 direction;
     Vector3 horizontalDirection;
 
@@ -21,6 +26,9 @@ public class BiteyThingController : MonoBehaviour, ILandMovementInput
     // Start is called before the first frame update
     void Start()
     {
+        myBoxCollider = GetComponent<BoxCollider>();
+        myRigidBody = GetComponent<Rigidbody>();
+
         player = GameObject.FindGameObjectWithTag("Player");
 
         TryGetComponent(out aStarPathFinder);
@@ -57,6 +65,5 @@ public class BiteyThingController : MonoBehaviour, ILandMovementInput
 
         MoveInput = Vector2.up;
 
-        Debug.DrawRay(transform.position, 100 * directionOfPath);
     }
 }

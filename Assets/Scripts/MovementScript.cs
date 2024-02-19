@@ -45,13 +45,9 @@ public class MovementScript : MonoBehaviour
 
         Vector3 currentVelocity = myRigidbody.velocity;
         localCurrentVelocity = transform.InverseTransformDirection(currentVelocity);
-        //Debug.Log(currentVelocity);
-        //Debug.Log(localCurrentVelocity);
                    
         Vector3 moveInput = GetMoveInput();
         Vector3 propulsion = GetPropulsion(moveInput);
-
-        Debug.DrawRay(myRigidbody.position, 100 * propulsion);
 
         myRigidbody.AddRelativeForce(propulsion * myRigidbody.mass, ForceMode.Force); // ForceMode.Force is the default value but I put in there for clarity
     }
@@ -71,16 +67,11 @@ public class MovementScript : MonoBehaviour
 
         Vector3 directionOfPropulsion = GetDirectionOfGroundedPropulsion(moveInput);
 
-        //Debug.DrawRay(myRigidbody.position, 10 * transform.TransformDirection(directionOfPropulsion));
-
         float slopeMultiplier = MovementSlopeMultiplier(directionOfPropulsion);
 
         // Unity cannot handle large numbers so drag is set to be proportional to velocity even though that's not actually how drag works
         Vector3 forceFromPlayer = DragCoefficient * MaxSpeed * directionOfPropulsion;
-
         Vector3 drag = DragCoefficient * localCurrentVelocity;
-
-        Debug.DrawRay(myRigidbody.position, 100 * drag, Color.red);
 
         return slopeMultiplier * forceFromPlayer - drag;
     }

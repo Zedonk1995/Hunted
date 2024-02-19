@@ -31,14 +31,14 @@ public class AStarPathFinder : MonoBehaviour
 
     public void OnPathComplete(Path newPath)
     {
-        Debug.Log("Path error: " + newPath.error);
-
-        if (!newPath.error)
+        if (newPath.error)
         {
-            path = newPath;
-            // Reset waypoint counter
-            currentWaypointIndex = 0;
+            Debug.Log("Path error: " + newPath.error);
+            return;
         }
+        path = newPath;
+        // Reset waypoint counter
+        currentWaypointIndex = 0;
     }
 
     // perf - use square distance and perhaps don't call project on plane quite so much
