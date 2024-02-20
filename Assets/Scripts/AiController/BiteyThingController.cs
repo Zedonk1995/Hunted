@@ -64,6 +64,32 @@ public class BiteyThingController : MonoBehaviour, ILandMovementInput
         this.transform.rotation = Quaternion.LookRotation(directionOfPath);
 
         MoveInput = Vector2.up;
+    }
 
+    void Attack()
+    {
+        Vector3 halfBoxCastSize = myBoxCollider.size * 0.9f;
+        halfBoxCastSize.z = 0.1f;
+        float attackRange = 2.5f;
+
+        float boxColliderTravelDistance = (myBoxCollider.size.z / 2) + attackRange - halfBoxCastSize.z;
+
+        // this gets the 9th layer mask, for the nth layer mask use 1 << n
+        int layerMask = 1 << 9;
+
+        bool didHit = Physics.BoxCast(AttackOrigin.transform.position, halfBoxCastSize, transform.forward, out RaycastHit enemyHit, myRigidBody.rotation, boxColliderTravelDistance, layerMask);
+
+        if (!didHit ) {
+            return;
+        }
+
+        bool enemyHealthScriptExists = enemyHit.collider.TryGetComponent(out IHealth enemyHealthScript);
+
+        if (!enemyHealthScriptExists)
+        {
+            return;
+        }
+
+        enemyHealthScript.OnHit(1f);
     }
 }
