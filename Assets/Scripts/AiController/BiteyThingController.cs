@@ -10,7 +10,7 @@ public class BiteyThingController : MonoBehaviour, ILandMovementInput
 
     AStarPathFinder aStarPathFinder = null;
 
-    public Vector2 MoveInput { get; private set;  }
+    public Vector2 MoveInput { get; private set; }
 
     public bool JumpIsPressed { get; private set; }
 
@@ -37,7 +37,7 @@ public class BiteyThingController : MonoBehaviour, ILandMovementInput
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     void FixedUpdate()
@@ -79,7 +79,8 @@ public class BiteyThingController : MonoBehaviour, ILandMovementInput
 
         bool didHit = Physics.BoxCast(AttackOrigin.transform.position, halfBoxCastSize, transform.forward, out RaycastHit enemyHit, myRigidBody.rotation, boxColliderTravelDistance, layerMask);
 
-        if (!didHit ) {
+        if (!didHit)
+        {
             return;
         }
 
@@ -91,5 +92,22 @@ public class BiteyThingController : MonoBehaviour, ILandMovementInput
         }
 
         enemyHealthScript.OnHit(1f);
+    }
+
+    // Finds distance to target (which is the player) taking into account the size of the box colliders.  Distance is based on the positions of
+    // the feet of both objects.
+    float FindDistanceToTarget()
+    {
+        BoxCollider playerBoxCollider = player.GetComponent<BoxCollider>();
+
+        Vector3 thisPosition = myBoxCollider.transform.position;
+        Vector3 playerPosition = playerBoxCollider.transform.position;
+
+        Vector3 thisGroundPosition = thisPosition;
+        thisGroundPosition.y = thisPosition.y - myBoxCollider.size.y/2;
+        Vector3 playerGroundPosition = playerPosition;
+        playerGroundPosition.y = playerPosition.y - playerBoxCollider.size.y/2;
+
+        return Vector3.Distance(thisGroundPosition, playerGroundPosition) - playerBoxCollider.size.z/2 - myBoxCollider.size.z/2;
     }
 }
