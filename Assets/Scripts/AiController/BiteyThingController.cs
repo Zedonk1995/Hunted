@@ -15,13 +15,15 @@ public class BiteyThingController : MonoBehaviour, ILandMovementInput
     public bool JumpIsPressed { get; private set; }
 
     GameObject player;
-    public GameObject AttackOrigin;
+    public GameObject attackOrigin;
 
     Vector3 direction;
     Vector3 horizontalDirection;
 
     private const float pathCalculationInterval = 0.1f;
     private float timeSinceLastPathCalculation = -pathCalculationInterval;
+
+    public float attackRange = 2.5f;
 
     // Start is called before the first frame update
     void Start()
@@ -41,6 +43,19 @@ public class BiteyThingController : MonoBehaviour, ILandMovementInput
     }
 
     void FixedUpdate()
+    {
+        float distanceToTarget = GetDistanceToTarget();
+
+        if ( distanceToTarget > attackRange - 0.5 )
+        {
+            ChaseTarget();
+            return;
+        }
+        LookAtTarget();
+        Attack();
+    }
+
+    void ChaseTarget()
     {
         if (!aStarPathFinder)
         {
@@ -66,18 +81,28 @@ public class BiteyThingController : MonoBehaviour, ILandMovementInput
         MoveInput = Vector2.up;
     }
 
+    void LookAtTarget()
+    {
+        BoxCollider playerBoxCollider = player.GetComponent<BoxCollider>();
+
+        Vector3 thisPosition = myBoxCollider.transform.position;
+        Vector3 playerPosition = playerBoxCollider.transform.position;
+
+        Vector3 horizontalDirectionToPlayer = Vector3.ProjectOnPlane(playerPosition - thisPosition, Vector3.up);
+        this.transform.rotation = Quaternion.LookRotation(horizontalDirectionToPlayer);
+    }
+
     void Attack()
     {
         Vector3 halfBoxCastSize = myBoxCollider.size * 0.9f;
         halfBoxCastSize.z = 0.1f;
-        float attackRange = 2.5f;
 
         float boxColliderTravelDistance = (myBoxCollider.size.z / 2) + attackRange - halfBoxCastSize.z;
 
         // this gets the 9th layer mask, for the nth layer mask use 1 << n
         int layerMask = 1 << 9;
 
-        bool didHit = Physics.BoxCast(AttackOrigin.transform.position, halfBoxCastSize, transform.forward, out RaycastHit enemyHit, myRigidBody.rotation, boxColliderTravelDistance, layerMask);
+        bool didHit = Physics.BoxCast(attackOrigin.transform.position, halfBoxCastSize, transform.forward, out RaycastHit enemyHit, myRigidBody.rotation, boxColliderTravelDistance, layerMask);
 
         if (!didHit)
         {
@@ -96,7 +121,8 @@ public class BiteyThingController : MonoBehaviour, ILandMovementInput
 
     // Finds distance to target (which is the player) taking into account the size of the box colliders.  Distance is based on the positions of
     // the feet of both objects.
-    float FindDistanceToTarget()
+    // potential perf - use square of distance to avoid square roots
+    float GetDistanceToTarget()
     {
         BoxCollider playerBoxCollider = player.GetComponent<BoxCollider>();
 
