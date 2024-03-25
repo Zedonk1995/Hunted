@@ -30,7 +30,7 @@ public class BulletMove : MonoBehaviour
     {
         float damage = 10f;
         var otherObject = collision.gameObject;
-        otherObject.GetComponent<IHealth>()?.TakeDamage(damage);
+        otherObject.GetComponent<OldIHealth>()?.TakeDamage(damage);
 
         Destroy(gameObject);
     }

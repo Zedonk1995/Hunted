@@ -31,18 +31,18 @@ public class AStarPathFinder : MonoBehaviour
 
     public void OnPathComplete(Path newPath)
     {
-        Debug.Log("Path error: " + newPath.error);
-
-        if (!newPath.error)
+        if (newPath.error)
         {
-            path = newPath;
-            // Reset waypoint counter
-            currentWaypointIndex = 0;
+            Debug.Log("Path error: " + newPath.error);
+            return;
         }
+        path = newPath;
+        // Reset waypoint counter
+        currentWaypointIndex = 0;
     }
 
     // perf - use square distance and perhaps don't call project on plane quite so much
-    // gets the direction to the next waypoint within the path
+    // returns the horizontal direction to the next waypoint in the path
     public Vector3 GetDirectionOfPath()
     {
         // project current position onto xz-plane
