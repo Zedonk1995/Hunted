@@ -7,6 +7,7 @@ public class BiteyThingController : MonoBehaviour, ILandMovementInput
 {
     BoxCollider myBoxCollider = null;
     Rigidbody myRigidBody = null;
+    Animator myAnimator = null;
 
     AStarPathFinder aStarPathFinder = null;
 
@@ -30,6 +31,7 @@ public class BiteyThingController : MonoBehaviour, ILandMovementInput
     {
         myBoxCollider = GetComponent<BoxCollider>();
         myRigidBody = GetComponent<Rigidbody>();
+        myAnimator = GetComponentInChildren<Animator>();
 
         player = GameObject.FindGameObjectWithTag("Player");
 
@@ -94,6 +96,8 @@ public class BiteyThingController : MonoBehaviour, ILandMovementInput
 
     void Attack()
     {
+        myAnimator.SetTrigger("Attack");
+
         Vector3 halfBoxCastSize = myBoxCollider.size * 0.9f;
         halfBoxCastSize.z = 0.1f;
 
