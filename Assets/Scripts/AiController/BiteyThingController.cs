@@ -25,6 +25,8 @@ public class BiteyThingController : MonoBehaviour, ILandMovementInput
     private float timeSinceLastPathCalculation = -pathCalculationInterval;
 
     public float attackRange = 2.5f;
+    private float attackCooldown = 1.0f;
+    private float nextAttackTime = 0f;
 
     // Start is called before the first frame update
     void Start()
@@ -46,6 +48,14 @@ public class BiteyThingController : MonoBehaviour, ILandMovementInput
 
     void FixedUpdate()
     {
+        // if the attack is on cooldown then we assume that means that attack is still in progress
+        // so the monster should not be moving.
+        if (Time.time < nextAttackTime)
+        {
+            MoveInput = Vector2.zero;
+            return;
+        }
+
         float distanceToTarget = GetDistanceToTarget();
 
         if ( distanceToTarget > attackRange - 0.5 )
@@ -53,8 +63,9 @@ public class BiteyThingController : MonoBehaviour, ILandMovementInput
             ChaseTarget();
             return;
         }
-        LookAtTarget();
+
         Attack();
+        nextAttackTime = Time.time + attackCooldown;        
     }
 
     void ChaseTarget()
@@ -97,6 +108,8 @@ public class BiteyThingController : MonoBehaviour, ILandMovementInput
     void Attack()
     {
         myAnimator.SetTrigger("Attack");
+
+        LookAtTarget();
 
         Vector3 halfBoxCastSize = myBoxCollider.size * 0.9f;
         halfBoxCastSize.z = 0.1f;
