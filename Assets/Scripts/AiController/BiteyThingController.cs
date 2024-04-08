@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
-public class BiteyThingController : MonoBehaviour, ILandMovementInput
+public class BiteyThingController : MonoBehaviour, ILandMovementInput, IDeath
 {
     BoxCollider myBoxCollider = null;
     Rigidbody myRigidBody = null;
@@ -126,14 +126,8 @@ public class BiteyThingController : MonoBehaviour, ILandMovementInput
             return;
         }
 
-        bool enemyHealthScriptExists = enemyHit.collider.TryGetComponent(out IHealth enemyHealthScript);
-
-        if (!enemyHealthScriptExists)
-        {
-            return;
-        }
-
-        enemyHealthScript.OnHit(1f);
+        enemyHit.collider.TryGetComponent(out IHealth enemyHealthScript);
+        enemyHealthScript?.OnHit(20f);
     }
 
     // Finds distance to target (which is the player) taking into account the size of the box colliders.  Distance is based on the positions of
@@ -152,5 +146,10 @@ public class BiteyThingController : MonoBehaviour, ILandMovementInput
         playerGroundPosition.y = playerPosition.y - playerBoxCollider.size.y/2;
 
         return Vector3.Distance(thisGroundPosition, playerGroundPosition) - playerBoxCollider.size.z/2 - myBoxCollider.size.z/2;
+    }
+
+    public void Die()
+    {
+        Destroy(gameObject);
     }
 }

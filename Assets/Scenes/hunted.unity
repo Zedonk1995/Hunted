@@ -979,12 +979,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &657484802 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1636353233, guid: 9a56cc8dbf38e404dab722c461a9659c,
-    type: 3}
-  m_PrefabInstance: {fileID: 1685285051}
-  m_PrefabAsset: {fileID: 0}
 --- !u!43 &842733577
 Mesh:
   m_ObjectHideFlags: 0
@@ -1688,7 +1682,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh21982
+  m_Name: pb_Mesh21976
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -1860,16 +1854,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: BiteyThing
       objectReference: {fileID: 0}
-    - target: {fileID: 4288567690967165976, guid: 9a56cc8dbf38e404dab722c461a9659c,
-        type: 3}
-      propertyPath: attackOrigin
-      value: 
-      objectReference: {fileID: 657484802}
-    - target: {fileID: 4288567690967165977, guid: 9a56cc8dbf38e404dab722c461a9659c,
-        type: 3}
-      propertyPath: m_Mass
-      value: 60
-      objectReference: {fileID: 0}
     - target: {fileID: 4288567690967165978, guid: 9a56cc8dbf38e404dab722c461a9659c,
         type: 3}
       propertyPath: m_RootOrder
@@ -1924,11 +1908,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4288567690967165983, guid: 9a56cc8dbf38e404dab722c461a9659c,
-        type: 3}
-      propertyPath: MaxSpeed
-      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

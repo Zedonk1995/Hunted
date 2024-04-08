@@ -13,8 +13,8 @@ public class Health : MonoBehaviour, IHealth
 
         if ( health <= 0 )
         {
-            IDeath deathComponent = GetComponent<IDeath>();
-            deathComponent.Die();
+            TryGetComponent(out IDeath deathComponent);
+            deathComponent?.Die();
         }
     }
 }
