@@ -6,6 +6,6 @@ public class PlayerController : MonoBehaviour, IDeath
 {
     public void Die()
     {
-        Debug.Log("You died!   :( ");
+        Debug.Log("You died! :( ");
     }
 }

@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Health : MonoBehaviour, IHealth
 {
-    private float health = 10f;
+    [Header("Health")]
+    [SerializeField] private float health = 100f;
 
     public void OnHit( float damage )
     {
