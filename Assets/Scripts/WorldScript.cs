@@ -33,6 +33,7 @@ public class WorldScript : MonoBehaviour
     {
         if (Time.time >= NextSpawnTime)
         {
+            SpawnTimeInterval = Math.Max( SpawnTimeInterval * 0.9f, 1.0f );
             NextSpawnTime = Time.time + SpawnTimeInterval;
 
             int chosenSpawnPointIndex = UnityEngine.Random.Range(0, SpawnPointList.Length);
