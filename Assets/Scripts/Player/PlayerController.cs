@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour, IDeath
 {
     public void Die()
     {
-        Debug.Log("You died! :( ");
+        SceneManager.LoadScene("GameOver");
     }
 }
