@@ -36,9 +36,9 @@ public class BulletScript : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        float damage = 1f;
+        float damage = 10f;
         var otherObject = collision.gameObject;
-        //otherObject.GetComponent<Health>()?.onHit(damage);
+        otherObject.GetComponent<IHealth>()?.OnHit(damage);
 
         if (otherObject.tag != "Bullet" )
         {

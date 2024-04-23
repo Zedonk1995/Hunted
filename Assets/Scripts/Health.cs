@@ -4,16 +4,34 @@ using UnityEngine;
 
 public class Health : MonoBehaviour, IHealth
 {
-    private float health = 10f;
+    private UIHandler uiHandler;
+
+    [Header("Health")]
+    [SerializeField] private float maxHealth = 100f;
+
+    private float health;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        health = maxHealth;
+
+        TryGetComponent<UIHandler>(out uiHandler);
+    }
 
     public void OnHit( float damage )
     {
         health -= damage;
 
+        if (uiHandler != null)
+        {
+            uiHandler.UpdateHealth(health, maxHealth);
+        }
+
         if ( health <= 0 )
         {
-            IDeath deathComponent = GetComponent<IDeath>();
-            deathComponent.Die();
+            TryGetComponent(out IDeath deathComponent);
+            deathComponent?.Die();
         }
     }
 }
