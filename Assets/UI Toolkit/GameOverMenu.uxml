@@ -1,0 +1,5 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement name="Menu" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); -unity-text-align: upper-left;">
+        <ui:Button text="Retry" display-tooltip-when-elided="true" name="Retry" style="width: 500px; height: auto; margin-left: auto; margin-right: auto; margin-top: auto; margin-bottom: auto; font-size: 150px;" />
+    </ui:VisualElement>
+</ui:UXML>
