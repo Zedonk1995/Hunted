@@ -16,6 +16,9 @@ public class BiteyThingController : MonoBehaviour, ILandMovementInput, IDeath
     public bool JumpIsPressed { get; private set; }
 
     GameObject player;
+    public Vector3 TargetPosition { get; private set; }
+    bool shouldTargetDefault = true;
+
     public GameObject attackOrigin;
 
     Vector3 direction;
@@ -24,9 +27,14 @@ public class BiteyThingController : MonoBehaviour, ILandMovementInput, IDeath
     private const float pathCalculationInterval = 0.1f;
     private float timeSinceLastPathCalculation = -pathCalculationInterval;
 
-    public float attackRange = 2.5f;
-    private float attackCooldown = 1.0f;
+    public readonly float attackRange = 2.5f;
+    private readonly float attackCooldown = 1.0f;
     private float nextAttackTime = 0f;
+
+    // how long the bitety thing has been directly chasing the player for when smart targeting is on.
+    // -1 means the bitetything is currently not actively chasing the player
+    public float directChaseTimer = -1f;
+    public readonly float maxChaseTime = 5f;
 
     // Start is called before the first frame update
     void Start()
@@ -56,7 +64,12 @@ public class BiteyThingController : MonoBehaviour, ILandMovementInput, IDeath
             return;
         }
 
-        float distanceToTarget = GetDistanceToTarget();
+        if ( shouldTargetDefault )
+        {
+            TargetPosition = player.transform.position;
+        }
+
+        float distanceToTarget = GetDistanceToAttackTarget();
 
         if ( distanceToTarget > attackRange - 0.5 )
         {
@@ -73,7 +86,7 @@ public class BiteyThingController : MonoBehaviour, ILandMovementInput, IDeath
         if (!aStarPathFinder)
         {
             Debug.Log("No AStarPathFinder Script detected!  Using simple movement.");
-            direction = player.transform.position - transform.position;
+            direction = TargetPosition - transform.position;
             horizontalDirection = Vector3.ProjectOnPlane(direction, Vector3.up);
 
             this.transform.rotation = Quaternion.LookRotation(horizontalDirection);
@@ -84,7 +97,7 @@ public class BiteyThingController : MonoBehaviour, ILandMovementInput, IDeath
         if (Time.time - timeSinceLastPathCalculation > pathCalculationInterval)
         {
             timeSinceLastPathCalculation = Time.time;
-            aStarPathFinder.CalculatePath(transform.position, player.transform.position);
+            aStarPathFinder.CalculatePath(transform.position, TargetPosition);
         }
 
         // direction of path in 3d coordinates
@@ -133,7 +146,7 @@ public class BiteyThingController : MonoBehaviour, ILandMovementInput, IDeath
     // Finds distance to target (which is the player) taking into account the size of the box colliders.  Distance is based on the positions of
     // the feet of both objects.
     // potential perf - use square of distance to avoid square roots
-    float GetDistanceToTarget()
+    float GetDistanceToAttackTarget()
     {
         BoxCollider playerBoxCollider = player.GetComponent<BoxCollider>();
 
@@ -148,8 +161,29 @@ public class BiteyThingController : MonoBehaviour, ILandMovementInput, IDeath
         return Vector3.Distance(thisGroundPosition, playerGroundPosition) - playerBoxCollider.size.z/2 - myBoxCollider.size.z/2;
     }
 
+    public float GetXZDistanceToTargetPosition()
+    {
+        Vector3 thisPosition = myBoxCollider.transform.position;
+        return Vector2.Distance(new Vector2(thisPosition.x, thisPosition.z), new Vector2(TargetPosition.x, TargetPosition.z));
+    }
+
     public void Die()
     {
         Destroy(gameObject);
+    }
+
+    // sets the position the monster will try to navigate to.  By default it targets the player.
+    public void SetTargetPosition(Vector3? newTargetPosition = null)
+    {
+        if ( newTargetPosition == null )
+        {
+            shouldTargetDefault = true;
+            return;
+        }
+
+        // We know newTargetPosition is not null so target position is never the zero vector.
+        // However, I had to make it default to Vector3.zero just so the code wouldn't error.
+        TargetPosition = newTargetPosition ?? Vector3.zero;
+        shouldTargetDefault = false;
     }
 }
