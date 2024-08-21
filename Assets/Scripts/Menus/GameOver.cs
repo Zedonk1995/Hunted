@@ -14,13 +14,10 @@ public class GameOver : MonoBehaviour
         retryButton = root.Q<Button>("Retry");
 
         retryButton.clicked += RestartGame;
-
-        Debug.Log("script run");
     }
 
     public void RestartGame()
     {
-        Debug.Log("work??");
         retryButton.clicked -= RestartGame;
         SceneManager.LoadScene("Hunted");
     }
