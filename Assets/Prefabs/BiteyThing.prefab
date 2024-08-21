@@ -133,7 +133,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackOrigin: {fileID: 1636353233}
-  attackRange: 2.5
+  directChaseTimer: 0
 --- !u!114 &4288567690967165980
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -160,7 +160,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c245ca409cbb3f4ea09f68ff8bbb8f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxSpeed: 20
+  MaxSpeed: 25
 --- !u!114 &4288567690967165981
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -213,7 +213,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b78b7c05e24c7574c85eb8196b67ac3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 100
+  maxHealth: 100
 --- !u!1001 &4288567691631971193
 PrefabInstance:
   m_ObjectHideFlags: 0
