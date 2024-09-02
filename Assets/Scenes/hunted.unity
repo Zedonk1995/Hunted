@@ -1969,6 +1969,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1704801074}
   - component: {fileID: 1704801075}
+  - component: {fileID: 1704801076}
   m_Layer: 0
   m_Name: Global
   m_TagString: Untagged
@@ -2006,6 +2007,18 @@ MonoBehaviour:
   SpawnPointListGameObject: {fileID: 1788428359}
   BitetyThing: {fileID: 4288567690967165957, guid: 9a56cc8dbf38e404dab722c461a9659c,
     type: 3}
+--- !u!114 &1704801076
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1704801072}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 933fa8a76644d9c4cbe1c0857e5b26e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!43 &1707884491
 Mesh:
   m_ObjectHideFlags: 0
