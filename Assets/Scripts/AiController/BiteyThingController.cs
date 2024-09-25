@@ -170,7 +170,14 @@ public class BiteyThingController : MonoBehaviour, ILandMovementInput, IDeath
     public void Die()
     {
         Destroy(gameObject);
-        Score.KillCount++;
+
+        GameObject global = GameObject.Find("Global");
+        global.TryGetComponent(out Score score);
+
+        if (score != null)
+        {
+            score.SetKillCount(score.KillCount + 1);
+        }
     }
 
     // sets the position the monster will try to navigate to.  By default it targets the player.
