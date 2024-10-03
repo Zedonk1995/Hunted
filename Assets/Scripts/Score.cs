@@ -20,6 +20,7 @@ public class Score : MonoBehaviour
     void FixedUpdate()
     {
         GameTime += Time.fixedDeltaTime;
+        uiHandler.UpdateGameTimer(GameTime);
     }
 
     public void SetKillCount(int newKillCount)
