@@ -176,7 +176,7 @@ public class BiteyThingController : MonoBehaviour, ILandMovementInput, IDeath
 
         if (score != null)
         {
-            score.SetKillCount(score.KillCount + 1);
+            score.SetKillCount(Score.KillCount + 1);
         }
     }
 
