@@ -4,6 +4,8 @@ using UnityEngine.UIElements;
 
 public class UIHandler : MonoBehaviour
 {
+    private const float characterWidth = 0.55f;
+
     [SerializeField]
     private UIDocument hud;
 
@@ -31,7 +33,7 @@ public class UIHandler : MonoBehaviour
             seconds = $"0{seconds}";
         }
 
-        scoreValue.text = $"{minutes}:{seconds}";
+        scoreValue.text = $"<mspace={characterWidth}em>{minutes}:{seconds}";
     }
 
     public void UpdateKillCount(int killCount)
