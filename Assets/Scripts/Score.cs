@@ -6,27 +6,25 @@ public class Score : MonoBehaviour
 {
     private UIHandler uiHandler;
 
+    public int KillCount { get; private set; } = 0;
+    static public float GameTime { get; private set; } = 0f;
+
     // Start is called before the first frame update
     void Start()
     {
         GameObject player = GameObject.Find("Player");
         player.TryGetComponent(out uiHandler);
-
-        // reset scores
-        Global.KillCount = 0;
-        Global.GameTime = 0f;
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        Global.GameTime += Time.fixedDeltaTime;
-        uiHandler.UpdateGameTimer(Global.GameTime);
+        GameTime += Time.fixedDeltaTime;
     }
 
     public void SetKillCount(int newKillCount)
     {
         uiHandler.UpdateKillCount(newKillCount);
-        Global.KillCount = newKillCount;
+        KillCount = newKillCount;
     }
 }
