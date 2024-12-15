@@ -397,6 +397,26 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &403034004 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 883766061647878072, guid: e9a457607637f64459f9570c4dccc671,
+    type: 3}
+  m_PrefabInstance: {fileID: 8460379885883954333}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &403034010
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 403034004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b47a72827b79b54295973242a7d21b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletPrefab: {fileID: 8465649906508519381, guid: 9e0d44638a5e87e408e8a6b4ae2f7213,
+    type: 3}
 --- !u!1 &498434247
 GameObject:
   m_ObjectHideFlags: 0
@@ -2707,5 +2727,9 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 883766061647878072, guid: e9a457607637f64459f9570c4dccc671,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 403034010}
   m_SourcePrefab: {fileID: 100100000, guid: e9a457607637f64459f9570c4dccc671, type: 3}

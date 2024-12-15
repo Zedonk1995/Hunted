@@ -1,12 +1,13 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerLandInput : MonoBehaviour, ILandMovementInput, IJumptInput, ILookHorizontalInput, ILookVerticalInput
+public class PlayerLandInput : MonoBehaviour, ILandMovementInput, IJumptInput, ILookHorizontalInput, ILookVerticalInput, IFireInput
 {
     public Vector2 MoveInput { get; private set; } = Vector2.zero;
     public Vector2 LookInput { get; private set; } = Vector2.zero;
 
     public bool JumpIsPressed { get; private set; } = false;
+    public bool FireIsPressed { get; private set; } = false;
 
     InputActions input = null;
 
@@ -25,7 +26,10 @@ public class PlayerLandInput : MonoBehaviour, ILandMovementInput, IJumptInput, I
         input.PlayerLand.Look.canceled += SetLook;
 
         input.PlayerLand.Jump.started += SetJump;
-        input.PlayerLand.Jump.canceled+= SetJump;
+        input.PlayerLand.Jump.canceled += SetJump;
+
+        input.PlayerLand.Fire.started += SetFire;
+        input.PlayerLand.Fire.canceled += SetFire;
     }
 
     private void OnDisable()
@@ -39,6 +43,9 @@ public class PlayerLandInput : MonoBehaviour, ILandMovementInput, IJumptInput, I
 
         input.PlayerLand.Jump.started -= SetJump;
         input.PlayerLand.Jump.canceled -= SetJump;
+
+        input.PlayerLand.Fire.started -= SetFire;
+        input.PlayerLand.Fire.canceled -= SetFire;
 
         input.PlayerLand.Disable();
     }
@@ -56,5 +63,10 @@ public class PlayerLandInput : MonoBehaviour, ILandMovementInput, IJumptInput, I
     private void SetJump(InputAction.CallbackContext ctx)
     {
         JumpIsPressed = ctx.started;
+    }
+
+    private void SetFire(InputAction.CallbackContext ctx)
+    {
+        FireIsPressed = ctx.started;
     }
 }
