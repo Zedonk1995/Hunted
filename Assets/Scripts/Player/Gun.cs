@@ -5,11 +5,12 @@ using UnityEngine;
 public class Gun : MonoBehaviour
 {
     IFireInput input = null;
-    [SerializeField] GameObject bullet;
+    [SerializeField] GameObject bulletPrefab;
 
+    GameObject Owner;
     Transform BulletOrigin;
 
-    float fireCooldown = 0.1f;
+    readonly float fireCooldown = 0.05f;
     float timeLastFired = 0f;
 
     // Start is called before the first frame update
@@ -17,6 +18,7 @@ public class Gun : MonoBehaviour
     {
         input = GetComponentInParent<IFireInput>();
         BulletOrigin = transform.Find("BulletOrigin").transform;
+        Owner = GameObject.Find("Player");
     }
 
     // Update is called once per frame
@@ -39,7 +41,9 @@ public class Gun : MonoBehaviour
 
     void Fire()
     {
-        Instantiate(bullet, BulletOrigin);
+        GameObject bullet = Instantiate(bulletPrefab, BulletOrigin);
+        bullet.GetComponent<BulletScript>().SetOwner(Owner);
+
         timeLastFired = Time.time;
     }
 }

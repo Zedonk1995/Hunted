@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class BulletScript : MonoBehaviour
 {
+    public GameObject Owner { get; private set; } = null;
 
-    float speed = 20.0f;
+    float speed = 35.0f;
     float timeCreated;
     float lifespan = 10.0f;
 
@@ -36,14 +37,25 @@ public class BulletScript : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        float damage = 10f;
+        float damage = 5f;
         var otherObject = collision.gameObject;
+
+        if (otherObject == Owner)
+        {
+            return;
+        }
+        
         otherObject.GetComponent<IHealth>()?.OnHit(damage);
 
         if (otherObject.tag != "Bullet" )
         {
             Destroy(gameObject);
         }
+    }
+
+    public void SetOwner( GameObject newOwner )
+    {
+        Owner = newOwner;
     }
 
 }
