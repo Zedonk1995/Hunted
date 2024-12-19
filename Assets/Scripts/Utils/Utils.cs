@@ -18,7 +18,11 @@ public class Utils
 
         Vector3 halfBoxCastSize = groundCheckSizeMultiplier * myBoxCollider.size/2;
         float boxCastTravelDistance = myBoxCollider.size.y/2 - halfBoxCastSize.y + groundCheckDistance;
-        bool raycastHitGround = Physics.BoxCast(myBoxColliderPosition, halfBoxCastSize, Vector3.down, out groundCheckHit, myRigidbody.rotation, boxCastTravelDistance );
+
+        // ~ will flip all bits so ~layermask gets all layers except the layer you used ~ on.
+        LayerMask layerMask = ~LayerMask.GetMask("Projectile");
+
+        bool raycastHitGround = Physics.BoxCast(myBoxColliderPosition, halfBoxCastSize, Vector3.down, out groundCheckHit, myRigidbody.rotation, boxCastTravelDistance, layerMask);
 
         float slopeAngle = Vector3.Angle(Vector3.up, groundCheckHit.normal);
 
