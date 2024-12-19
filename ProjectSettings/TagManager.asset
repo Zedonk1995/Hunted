@@ -16,7 +16,7 @@ TagManager:
   - Obstacle
   - IgnorePathfindingRaycast
   - InteractableActor
-  - 
+  - Projectile
   - 
   - 
   - 
