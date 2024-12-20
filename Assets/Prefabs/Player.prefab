@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 883766061647878068}
   - component: {fileID: 883766061647878069}
   - component: {fileID: 883766061647878074}
-  - component: {fileID: 883766061647878071}
+  - component: {fileID: 8322959656508023608}
   m_Layer: 15
   m_Name: Gun
   m_TagString: Untagged
@@ -230,7 +230,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &883766061647878071
+--- !u!114 &8322959656508023608
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -239,10 +239,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 883766061647878072}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 911fbb515eb1c114d8328f0d7c531c1d, type: 3}
+  m_Script: {fileID: 11500000, guid: 6b47a72827b79b54295973242a7d21b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BulletOrigin: {fileID: 883766061194891431}
   bulletPrefab: {fileID: 8465649906508519381, guid: 9e0d44638a5e87e408e8a6b4ae2f7213,
     type: 3}
 --- !u!1 &8741433097696018497
@@ -432,7 +431,7 @@ Transform:
   - {fileID: 854252384289216931}
   - {fileID: 7173268534195471393}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &883766061557574729
 MeshFilter:

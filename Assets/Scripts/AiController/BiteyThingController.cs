@@ -102,7 +102,10 @@ public class BiteyThingController : MonoBehaviour, ILandMovementInput, IDeath
 
         // direction of path in 3d coordinates
         Vector3 directionOfPath = aStarPathFinder.GetDirectionOfPath();
-        this.transform.rotation = Quaternion.LookRotation(directionOfPath);
+        if (directionOfPath != Vector3.zero)
+        {
+            this.transform.rotation = Quaternion.LookRotation(directionOfPath);
+        }
 
         MoveInput = Vector2.up;
     }
