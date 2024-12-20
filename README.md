@@ -1,4 +1,7 @@
-# Unity-BasicFPSProject
+# Version
+1.0.0
+
+# Unity-Hunted
 A test project to hone my unity skills
 
 # Credits
