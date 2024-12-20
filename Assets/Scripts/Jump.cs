@@ -15,7 +15,7 @@ public class Jump : MonoBehaviour
 
     bool jumpIsPressed = false;
 
-    float jumpHeight = 10f;
+    float jumpHeight = 5f;
     float initialJumpSpeed;
 
     float jumpPressedTime = 0.0f;

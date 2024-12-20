@@ -53,6 +53,15 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Fire"",
+                    ""type"": ""Button"",
+                    ""id"": ""f5d788eb-444f-458d-98c3-1aa3d6a2e0d7"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -132,6 +141,17 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
                     ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""96416136-2b93-4042-8161-5ae8686247d8"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Fire"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -143,6 +163,7 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
         m_PlayerLand_Move = m_PlayerLand.FindAction("Move", throwIfNotFound: true);
         m_PlayerLand_Look = m_PlayerLand.FindAction("Look", throwIfNotFound: true);
         m_PlayerLand_Jump = m_PlayerLand.FindAction("Jump", throwIfNotFound: true);
+        m_PlayerLand_Fire = m_PlayerLand.FindAction("Fire", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -205,6 +226,7 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerLand_Move;
     private readonly InputAction m_PlayerLand_Look;
     private readonly InputAction m_PlayerLand_Jump;
+    private readonly InputAction m_PlayerLand_Fire;
     public struct PlayerLandActions
     {
         private @InputActions m_Wrapper;
@@ -212,6 +234,7 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
         public InputAction @Move => m_Wrapper.m_PlayerLand_Move;
         public InputAction @Look => m_Wrapper.m_PlayerLand_Look;
         public InputAction @Jump => m_Wrapper.m_PlayerLand_Jump;
+        public InputAction @Fire => m_Wrapper.m_PlayerLand_Fire;
         public InputActionMap Get() { return m_Wrapper.m_PlayerLand; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -230,6 +253,9 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
                 @Jump.started -= m_Wrapper.m_PlayerLandActionsCallbackInterface.OnJump;
                 @Jump.performed -= m_Wrapper.m_PlayerLandActionsCallbackInterface.OnJump;
                 @Jump.canceled -= m_Wrapper.m_PlayerLandActionsCallbackInterface.OnJump;
+                @Fire.started -= m_Wrapper.m_PlayerLandActionsCallbackInterface.OnFire;
+                @Fire.performed -= m_Wrapper.m_PlayerLandActionsCallbackInterface.OnFire;
+                @Fire.canceled -= m_Wrapper.m_PlayerLandActionsCallbackInterface.OnFire;
             }
             m_Wrapper.m_PlayerLandActionsCallbackInterface = instance;
             if (instance != null)
@@ -243,6 +269,9 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
                 @Jump.started += instance.OnJump;
                 @Jump.performed += instance.OnJump;
                 @Jump.canceled += instance.OnJump;
+                @Fire.started += instance.OnFire;
+                @Fire.performed += instance.OnFire;
+                @Fire.canceled += instance.OnFire;
             }
         }
     }
@@ -252,5 +281,6 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
+        void OnFire(InputAction.CallbackContext context);
     }
 }

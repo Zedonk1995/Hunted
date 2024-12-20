@@ -67,13 +67,10 @@ public class MovementScript : MonoBehaviour
 
         Vector3 directionOfPropulsion = GetDirectionOfGroundedPropulsion(moveInput);
 
-        Debug.DrawRay(myRigidbody.position, 10 * transform.TransformDirection(directionOfPropulsion));
-
         float slopeMultiplier = MovementSlopeMultiplier(directionOfPropulsion);
 
         // Unity cannot handle large numbers so drag is set to be proportional to velocity even though that's not actually how drag works
         Vector3 forceFromPlayer = DragCoefficient * MaxSpeed * directionOfPropulsion;
-
         Vector3 drag = DragCoefficient * localCurrentVelocity;
 
         return slopeMultiplier * forceFromPlayer - drag;
