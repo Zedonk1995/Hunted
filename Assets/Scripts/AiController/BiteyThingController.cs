@@ -10,6 +10,10 @@ public class BiteyThingController : MonoBehaviour, ILandMovementInput, IDeath
 
     AStarPathFinder aStarPathFinder = null;
 
+    // Number means nth bitety thing in order of creation
+    public float Number = 0;
+    public static float TotalNumber = 0;
+
     public Vector2 MoveInput { get; private set; }
 
     public bool JumpIsPressed { get; private set; }
@@ -45,6 +49,8 @@ public class BiteyThingController : MonoBehaviour, ILandMovementInput, IDeath
         player = GameObject.FindGameObjectWithTag("Player");
 
         TryGetComponent(out aStarPathFinder);
+
+        Number = TotalNumber++;
     }
 
     // Update is called once per frame
