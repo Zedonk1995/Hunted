@@ -26,6 +26,11 @@ public class WorldScript : MonoBehaviour
         }
 
         NextSpawnTime = SpawnTimeInterval;
+
+        for (int i = 0; i < 15; i++)
+        {
+            SpawnEnemy();
+        }
     }
 
     // Update is called once per frame
@@ -33,12 +38,17 @@ public class WorldScript : MonoBehaviour
     {
         if (Time.time >= NextSpawnTime)
         {
-            SpawnTimeInterval = Math.Max( SpawnTimeInterval * 0.9f, 1.0f );
+            SpawnTimeInterval = Math.Max( SpawnTimeInterval * 0.7f, 1.0f );
             NextSpawnTime = Time.time + SpawnTimeInterval;
 
-            int chosenSpawnPointIndex = UnityEngine.Random.Range(0, SpawnPointList.Length);
-            Vector3 chosenSpawnPoint = SpawnPointList[chosenSpawnPointIndex].position;
-            Instantiate(BitetyThing, chosenSpawnPoint, Quaternion.identity);
+            SpawnEnemy();
         }
+    }
+
+    void SpawnEnemy()
+    {
+        int chosenSpawnPointIndex = UnityEngine.Random.Range(0, SpawnPointList.Length);
+        Vector3 chosenSpawnPoint = SpawnPointList[chosenSpawnPointIndex].position;
+        Instantiate(BitetyThing, chosenSpawnPoint, Quaternion.identity);
     }
 }
