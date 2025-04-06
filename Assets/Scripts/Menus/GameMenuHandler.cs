@@ -14,6 +14,21 @@ public class GameMenuHandler : MonoBehaviour
     {
         input = GetComponent<IShowMenuInput>();
         input.MenuCallback = ToggleVisiblity;
+
+        VisualElement root = hud.rootVisualElement;
+        SliderInt slider = root.Q<SliderInt>("MouseSensitivitySlider");
+
+        slider.value = Mathf.RoundToInt(Global.MouseSensitivity / 10);
+
+        slider.RegisterValueChangedCallback(e =>
+        {
+            Global.MouseSensitivity = 10*e.newValue;
+        });
+    }
+
+    private void Update()
+    {
+        
     }
 
     void ToggleVisiblity()
@@ -24,13 +39,17 @@ public class GameMenuHandler : MonoBehaviour
         {
             return;
         }
-        Debug.Log(gameMenu.style.visibility);
 
         if (gameMenu.style.visibility == Visibility.Visible) {
             gameMenu.style.visibility = Visibility.Hidden;
-        } else
+            UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+            UnityEngine.Cursor.visible = false;
+        }
+        else
         {
             gameMenu.style.visibility = Visibility.Visible;
+            UnityEngine.Cursor.lockState = CursorLockMode.None;
+            UnityEngine.Cursor.visible = true;
         }
     }
 }

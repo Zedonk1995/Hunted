@@ -1,4 +1,4 @@
-   using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -11,7 +11,7 @@ public class LookHorizontal : MonoBehaviour
     float mouseX;
     float yaw = 0f;
 
-    public static readonly float mouseSensitivity = 750.0f;
+    private float mouseSensitivity = Global.MouseSensitivity;
 
     Vector2 LookInput = Vector2.zero;
 
