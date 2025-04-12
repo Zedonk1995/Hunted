@@ -27,7 +27,7 @@ public class WorldScript : MonoBehaviour
 
         NextSpawnTime = SpawnTimeInterval;
 
-        for (int i = 0; i < 15; i++)
+        for (int i = 0; i < 7; i++)
         {
             SpawnEnemy();
         }
@@ -38,7 +38,7 @@ public class WorldScript : MonoBehaviour
     {
         if (Time.time >= NextSpawnTime)
         {
-            SpawnTimeInterval = Math.Max( SpawnTimeInterval * 0.7f, 1.0f );
+            SpawnTimeInterval = Math.Max( SpawnTimeInterval * 0.6f, 2.5f );
             NextSpawnTime = Time.time + SpawnTimeInterval;
 
             SpawnEnemy();
