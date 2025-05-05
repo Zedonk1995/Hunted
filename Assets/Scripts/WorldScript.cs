@@ -27,7 +27,9 @@ public class WorldScript : MonoBehaviour
 
         NextSpawnTime = SpawnTimeInterval;
 
-        for (int i = 0; i < 7; i++)
+
+        // spawn initial enemies
+        for (int i = 0; i < 5; i++)
         {
             SpawnEnemy();
         }
