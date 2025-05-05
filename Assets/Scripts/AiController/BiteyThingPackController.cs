@@ -22,32 +22,29 @@ public class BiteyThingPackController : MonoBehaviour
         BiteyThingController[] biteyThingControllers = (BiteyThingController[])Object.FindObjectsOfType(typeof(BiteyThingController));
         Vector3 playerPosition = Player.transform.position;
 
-        BitetyThingCounter = 1;
-
         foreach (BiteyThingController biteyThingController in biteyThingControllers)
         {
+            float FlankDistance = Mathf.Clamp(0.9f * Vector3.Distance(playerPosition, biteyThingController.transform.position), 0, 100);
 
             // twice as many monsters chase player as the number of monsters that perfrom any other singular role.
-            switch (BitetyThingCounter % 6)
+            switch (biteyThingController.Number % 6)
             {
                 case 2:
-                    HandleFlankTarget(biteyThingController, playerPosition + new Vector3(20, 0, 0), playerPosition);
+                    HandleFlankTarget(biteyThingController, playerPosition + new Vector3(FlankDistance, 0, 0), playerPosition);
                     break;
                 case 3:
-                    HandleFlankTarget(biteyThingController, playerPosition + new Vector3(-20, 0, 0), playerPosition);
+                    HandleFlankTarget(biteyThingController, playerPosition + new Vector3(-FlankDistance, 0, 0), playerPosition);
                     break;
                 case 4:
-                    HandleFlankTarget(biteyThingController, playerPosition + new Vector3(0, 0, 20), playerPosition);
+                    HandleFlankTarget(biteyThingController, playerPosition + new Vector3(0, 0, FlankDistance), playerPosition);
                     break;
                 case 5:
-                    HandleFlankTarget(biteyThingController, playerPosition + new Vector3(0, 0, -20), playerPosition);
+                    HandleFlankTarget(biteyThingController, playerPosition + new Vector3(0, 0, -FlankDistance), playerPosition);
                     break;
                 default:
                     biteyThingController.SetTargetPosition();
                     break;
             }
-
-            BitetyThingCounter++;
         }
     }
 

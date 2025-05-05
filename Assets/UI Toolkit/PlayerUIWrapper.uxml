@@ -1,0 +1,8 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:Template name="PlayerUIVisualTree" src="project://database/Assets/UI%20Toolkit/PlayerUIVisualTree.uxml?fileID=9197481963319205126&amp;guid=314405274eb25b444b5e4da90f656ee9&amp;type=3#PlayerUIVisualTree" />
+    <ui:Template name="GameMenu" src="project://database/Assets/UI%20Toolkit/GameMenu.uxml?fileID=9197481963319205126&amp;guid=4481a453de007cb4daa456342fa6a176&amp;type=3#GameMenu" />
+    <ui:VisualElement name="UIWrapper" style="width: 100%; height: 100%;">
+        <ui:Instance template="PlayerUIVisualTree" name="PlayerUIVisualTree" />
+        <ui:Instance template="GameMenu" name="GameMenu" style="position: absolute; width: 100%; height: 100%; display: flex; visibility: hidden;" />
+    </ui:VisualElement>
+</ui:UXML>
