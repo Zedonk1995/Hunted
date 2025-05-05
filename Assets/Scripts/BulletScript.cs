@@ -6,7 +6,9 @@ public class BulletScript : MonoBehaviour
 {
     public GameObject Owner { get; private set; } = null;
 
-    float speed = 35.0f;
+    [SerializeField] float damage = 5f;
+
+    float speed = 100.0f;
     float timeCreated;
     float lifespan = 10.0f;
 
@@ -35,9 +37,8 @@ public class BulletScript : MonoBehaviour
         
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider collision)
     {
-        float damage = 5f;
         var otherObject = collision.gameObject;
 
         if (otherObject == Owner)

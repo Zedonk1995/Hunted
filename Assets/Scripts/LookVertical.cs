@@ -10,8 +10,6 @@ public class LookVertical : MonoBehaviour
     float mouseY;
     float pitch = 0f;
 
-    private float mouseSensitivity = 200.0f;
-
     Vector2 LookInput = Vector2.zero;
 
     // Start is called before the first frame update
@@ -24,7 +22,7 @@ public class LookVertical : MonoBehaviour
     void Update()
     {
         LookInput = input.LookInput;
-        mouseY = -LookInput.y * mouseSensitivity * Time.deltaTime;
+        mouseY = -LookInput.y * Global.MouseSensitivity * Time.deltaTime;
 
         pitch += mouseY;
         pitch = Mathf.Clamp(pitch, -89f, 89f);

@@ -1,13 +1,15 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerLandInput : MonoBehaviour, ILandMovementInput, IJumptInput, ILookHorizontalInput, ILookVerticalInput, IFireInput
+public class PlayerLandInput : MonoBehaviour, ILandMovementInput, IJumptInput, ILookHorizontalInput, ILookVerticalInput, IFireInput, IShowMenuInput
 {
     public Vector2 MoveInput { get; private set; } = Vector2.zero;
     public Vector2 LookInput { get; private set; } = Vector2.zero;
 
     public bool JumpIsPressed { get; private set; } = false;
     public bool FireIsPressed { get; private set; } = false;
+    public Action MenuCallback { private get; set; } = null;
 
     InputActions input = null;
 
@@ -30,6 +32,8 @@ public class PlayerLandInput : MonoBehaviour, ILandMovementInput, IJumptInput, I
 
         input.PlayerLand.Fire.started += SetFire;
         input.PlayerLand.Fire.canceled += SetFire;
+
+        input.PlayerLand.Menu.performed += TriggerMenuCallback;
     }
 
     private void OnDisable()
@@ -46,6 +50,8 @@ public class PlayerLandInput : MonoBehaviour, ILandMovementInput, IJumptInput, I
 
         input.PlayerLand.Fire.started -= SetFire;
         input.PlayerLand.Fire.canceled -= SetFire;
+
+        input.PlayerLand.Menu.performed -= TriggerMenuCallback;
 
         input.PlayerLand.Disable();
     }
@@ -68,5 +74,9 @@ public class PlayerLandInput : MonoBehaviour, ILandMovementInput, IJumptInput, I
     private void SetFire(InputAction.CallbackContext ctx)
     {
         FireIsPressed = ctx.started;
+    }
+    public void TriggerMenuCallback(InputAction.CallbackContext ctx)
+    {
+        MenuCallback?.Invoke();
     }
 }

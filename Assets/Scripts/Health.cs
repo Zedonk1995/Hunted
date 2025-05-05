@@ -10,6 +10,7 @@ public class Health : MonoBehaviour, IHealth
     [SerializeField] private float maxHealth = 100f;
 
     private float health;
+    private bool isAlive = true;
 
     // Start is called before the first frame update
     void Start()
@@ -28,8 +29,13 @@ public class Health : MonoBehaviour, IHealth
             uiHandler.UpdateHealth(health, maxHealth);
         }
 
-        if ( health <= 0 )
+        /*
+         * you can only die if you are currently alive.  There is no such thing
+         * as dying twice (simultaneously).
+         */
+        if ( health <= 0 && isAlive )
         {
+            isAlive = false;
             TryGetComponent(out IDeath deathComponent);
             deathComponent?.Die();
         }
