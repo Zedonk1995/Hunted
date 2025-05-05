@@ -11,8 +11,6 @@ public class LookHorizontal : MonoBehaviour
     float mouseX;
     float yaw = 0f;
 
-    private float mouseSensitivity = Global.MouseSensitivity;
-
     Vector2 LookInput = Vector2.zero;
 
     // Start is called before the first frame update
@@ -30,7 +28,7 @@ public class LookHorizontal : MonoBehaviour
     void Update()
     {
         LookInput = input.LookInput;
-        mouseX = LookInput.x * mouseSensitivity * Time.deltaTime;
+        mouseX = LookInput.x * Global.MouseSensitivity * Time.deltaTime;
 
         yaw += mouseX;
 
