@@ -1,13 +1,28 @@
 using System;
 using UnityEngine;
 using UnityEngine.UIElements;
+using UnityEngine.InputSystem;
+using UnityEngine.Windows;
 
 public class UIHandler : MonoBehaviour
 {
     private const float characterWidth = 0.55f;
 
+    private IShowMenuInput input;
+
     [SerializeField]
     private UIDocument hud;
+
+    void Start()
+    {
+        input = GetComponent<IShowMenuInput>();
+    }
+
+
+    public void Update()
+    {
+
+    }
 
     public void UpdateHealth(float health, float maxHealth)
     {
@@ -41,5 +56,18 @@ public class UIHandler : MonoBehaviour
         VisualElement root = hud.rootVisualElement;
         Label scoreValue = root.Q<Label>("ScoreValue");
         scoreValue.text = killCount.ToString();
+    }
+
+    public void ToggleOpenGameMenu(bool openGameMenu)
+    {
+        VisualElement root = hud.rootVisualElement;
+        VisualElement currentHealthElement = root.Q<VisualElement>("UIWrapper");
+
+        InputAction action = new InputAction();
+        Boolean test = action.ReadValue<Boolean>();
+
+        //Debug.Log(test);
+
+        //Debug.Log(currentHealthElement);
     }
 }

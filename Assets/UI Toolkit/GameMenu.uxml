@@ -1,0 +1,12 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement style="flex-grow: 1; justify-content: center;">
+        <ui:VisualElement name="VisualElement" style="flex-grow: 0; margin-top: 100px; flex-shrink: 1;">
+            <ui:Label tabindex="-1" text="GAME MENU" parse-escape-sequences="true" display-tooltip-when-elided="true" style="-unity-text-align: upper-center; font-size: 100px;" />
+        </ui:VisualElement>
+        <ui:VisualElement style="flex-grow: 1;">
+            <ui:VisualElement style="flex-grow: 1; margin-right: 150px; margin-left: 150px; margin-top: 80px;">
+                <ui:SliderInt label="Mouse Sensitivity" name="MouseSensitivitySlider" low-value="20" high-value="200" style="font-size: 25px; -unity-font-style: bold; color: rgb(0, 0, 0);" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

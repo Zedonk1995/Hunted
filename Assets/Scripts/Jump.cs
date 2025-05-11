@@ -15,13 +15,13 @@ public class Jump : MonoBehaviour
 
     bool jumpIsPressed = false;
 
-    float jumpHeight = 5f;
+    float jumpHeight = 3f;
     float initialJumpSpeed;
 
     float jumpPressedTime = 0.0f;
 
     // number of seconds before jump can be pressed again
-    float jumpCooldown = 0.5f;
+    float jumpCooldown = 1.0f;
     bool isJumpOffCooldown => Time.time - jumpPressedTime >= jumpCooldown;
 
     // records whether the player has pressed jump recently.

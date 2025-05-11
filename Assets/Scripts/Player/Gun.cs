@@ -10,7 +10,7 @@ public class Gun : MonoBehaviour
     GameObject Owner;
     Transform BulletOrigin;
 
-    readonly float fireCooldown = 0.05f;
+    readonly float fireCooldown = 0.2f;
     float timeLastFired = 0f;
 
     // Start is called before the first frame update
@@ -41,8 +41,20 @@ public class Gun : MonoBehaviour
 
     void Fire()
     {
-        GameObject bullet = Instantiate(bulletPrefab, BulletOrigin);
-        bullet.GetComponent<BulletScript>().SetOwner(Owner);
+        for (int i = 0; i < 10; i++)
+        {
+            float randomAngleBound = 5;
+            Quaternion randomRotation = Quaternion.Euler(
+                new Vector3(
+                        Random.Range(-randomAngleBound, randomAngleBound),
+                        Random.Range(-randomAngleBound, randomAngleBound),
+                        0
+                    )
+                ) ;
+
+            GameObject bullet = Instantiate(bulletPrefab, BulletOrigin.position, BulletOrigin.rotation * randomRotation);
+            bullet.GetComponent<BulletScript>().SetOwner(Owner);
+        }
 
         timeLastFired = Time.time;
     }
